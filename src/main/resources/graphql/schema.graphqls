@@ -1,0 +1,10 @@
+type Query {
+    greeting: String
+    greetingMono : String
+    greetingsFlux : [String]
+}
+
+type Subscription {
+    subscribe(topic: String): String
+    stream: String
+}

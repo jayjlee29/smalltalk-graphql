@@ -1,0 +1,23 @@
+spring:
+    profiles:
+        active: local
+    application:
+        name: graphql-sample
+    graphql:
+        enabled: true
+        path: /graphql
+        graphiql:
+            enabled: true
+            path: /graphiql
+        websocket:
+            path: /graphql-ws
+    data:
+        redis:
+            host: localhost
+            port: 6379
+    logging:
+        level:
+            root: INFO
+            org.springframework.web: DEBUG
+            com.tenwell.product: INFO
+    
