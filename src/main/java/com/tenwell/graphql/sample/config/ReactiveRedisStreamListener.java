@@ -1,4 +1,4 @@
-package com.tenwell.graphql.sample;
+package com.tenwell.graphql.sample.config;
 
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.connection.stream.MapRecord;

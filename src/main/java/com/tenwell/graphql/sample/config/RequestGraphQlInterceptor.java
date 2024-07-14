@@ -1,4 +1,4 @@
-package com.tenwell.graphql.sample;
+package com.tenwell.graphql.sample.config;
 
 import java.util.List;
 import java.util.Map;

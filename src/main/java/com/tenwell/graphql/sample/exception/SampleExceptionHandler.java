@@ -1,4 +1,4 @@
-package com.tenwell.graphql.sample;
+package com.tenwell.graphql.sample.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

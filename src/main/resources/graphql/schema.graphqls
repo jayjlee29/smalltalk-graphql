@@ -8,3 +8,7 @@ type Subscription {
     subscribe(topic: String): String
     stream: String
 }
+
+type Mutation {
+    publish(topic: String, message: String ): Int
+}

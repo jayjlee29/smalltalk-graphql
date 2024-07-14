@@ -1,4 +1,4 @@
-package com.tenwell.graphql.sample;
+package com.tenwell.graphql.sample.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
