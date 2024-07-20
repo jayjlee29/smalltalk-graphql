@@ -1,4 +1,4 @@
-package com.tenwell.graphql.smalltalk.data;
+package com.tenwell.graphql.smalltalk.data.mongo;
 
 import java.time.LocalDateTime;
 

@@ -1,15 +1,14 @@
 package com.tenwell.graphql.smalltalk.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
-import com.tenwell.graphql.smalltalk.data.Article;
-import com.tenwell.graphql.smalltalk.data.Comment;
-import com.tenwell.graphql.smalltalk.data.Tag;
+import com.tenwell.graphql.smalltalk.data.mongo.Article;
+import com.tenwell.graphql.smalltalk.data.mongo.Comment;
+import com.tenwell.graphql.smalltalk.data.mongo.Tag;
 import com.tenwell.graphql.smalltalk.data.enums.ArticleStatus;
 import com.tenwell.graphql.smalltalk.data.http.ArticleCreateRequest;
 import com.tenwell.graphql.smalltalk.exception.ArticlePublishException;

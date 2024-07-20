@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tenwell.graphql.smalltalk.data.Article;
 import com.tenwell.graphql.smalltalk.data.http.ArticleCreateRequest;
 import com.tenwell.graphql.smalltalk.data.http.TenwellResponse;
+import com.tenwell.graphql.smalltalk.data.mongo.Article;
 import com.tenwell.graphql.smalltalk.service.ArticleService;
 
 import lombok.RequiredArgsConstructor;
@@ -74,6 +74,12 @@ public class ArticleController {
 
     @DeleteMapping("/delete")
     public Mono<TenwellResponse<Boolean>> delete() {
+
+        return Mono.empty();
+    }
+
+    @PostMapping("/like")
+    public Mono<TenwellResponse<Boolean>> like(@RequestBody String articleId) {
 
         return Mono.empty();
     }

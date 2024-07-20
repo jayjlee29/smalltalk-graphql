@@ -16,7 +16,7 @@ spring:
             host: localhost
             port: 6379
         mongodb:
-            uri: mongodb://admin:secret@localhost:27017/tenwell?authSource=admin
+            uri: mongodb://admin:${MONGODB_SMALLTALK_PASSWORD}@localhost:27017/tenwell?authSource=admin
     logging:
         level:
             root: INFO

@@ -1,5 +1,6 @@
 package com.tenwell.smalltalk.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,11 @@ public class ArticleControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
+
+    @BeforeEach
+    public void setup() {
+        log.info("setup");
+    }
 
     @Test
     void test001_게시글_쓰기() {
