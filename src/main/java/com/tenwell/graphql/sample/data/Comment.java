@@ -2,9 +2,12 @@ package com.tenwell.graphql.sample.data;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.Builder;
 import lombok.Getter;
 
+@Document
 @Builder
 @Getter
 public class Comment {
@@ -15,4 +18,8 @@ public class Comment {
     private String author;    
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public void updateArticleId(String articleId) {
+        this.articleId = articleId;
+    }
 }

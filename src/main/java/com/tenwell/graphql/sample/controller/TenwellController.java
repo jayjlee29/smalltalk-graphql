@@ -1,6 +1,5 @@
 package com.tenwell.graphql.sample.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.ReactiveRedisMessageListenerContainer;
@@ -26,7 +25,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class SampleController {
+public class TenwellController {
 
     
     final private ReactiveRedisMessageListenerContainer messageListener;
@@ -63,9 +62,7 @@ public class SampleController {
     }
 
     @SubscriptionMapping
-    public Flux<String> subscribe(DataFetchingEnvironment env,
-            @Argument("topic") String topic,
-            GraphQLContext context) {
+    public Flux<String> subscribe(DataFetchingEnvironment env, @Argument("topic") String topic, GraphQLContext context) {
 
         // String topic = env.getArgument("topic");
         log.info("Subscribing to topic: {}", topic);
