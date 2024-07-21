@@ -10,17 +10,18 @@ import lombok.ToString;
 public class ArticleCreateRequest {
 
     private String title;
+    private String boardId;
     private String contents;
     private String author;
     private String[] tags;
 
     protected ArticleCreateRequest() {}
 
-    protected ArticleCreateRequest(String title, String contents, String author, String[] tags) {
+    protected ArticleCreateRequest(String title, String boardId, String contents, String author, String[] tags) {
         this.title = title;
+        this.boardId = boardId;
         this.contents = contents;
         this.author = author;
         this.tags = tags;
     }
-
 }

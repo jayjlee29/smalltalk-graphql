@@ -1,4 +1,4 @@
-package com.tenwell.graphql.smalltalk.data.mongo;
+package com.tenwell.smalltalk.data.mongo;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,9 +9,9 @@ import nonapi.io.github.classgraph.json.Id;
 @Document
 @Getter
 @Builder
-public class LikeComment {
+public class LikeArticle {
 
-       @Id
+    @Id
     private String id;
     private String articleId;
     private String userId;

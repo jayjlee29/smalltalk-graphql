@@ -1,8 +1,8 @@
-package com.tenwell.smalltalk.data;
+package com.tenwell.smalltalk.data.mongo;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.tenwell.smalltalk.data.enums.ArticleStatus;
@@ -15,20 +15,18 @@ import lombok.Getter;
 @Builder
 public class Article {
 
+    @Id
     private String id;
+    private String boardId;
     private String title;
     private String contents;
     private String author;
+    private String createdAt;
+    private String updatedAt;
     private ArticleStatus articleStatus; 
     private List<String> catetoryList;
     private List<Comment> commentList;
     private List<Tag> tagList;
-    private LocalDateTime publishedAt;
-    private LocalDateTime unpublishedAt;
-    @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime updatedAt;
-    
 
     public boolean publish() {
         if( ArticleStatus.DRAFT != this.articleStatus ) {
@@ -40,14 +38,13 @@ public class Article {
     }
 
 
-    public void updateArticle(Article newArticle) {
+    public void update(Article newArticle) {
         this.title = newArticle.getTitle();
         this.contents = newArticle.getContents();
         this.updatedAt = newArticle.getUpdatedAt();
         this.articleStatus = newArticle.getArticleStatus();
         this.catetoryList = newArticle.getCatetoryList();
         this.tagList = newArticle.getTagList();
-        this.updatedAt = LocalDateTime.now();
     }
 
 }

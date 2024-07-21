@@ -1,4 +1,4 @@
-package com.tenwell.smalltalk.data;
+package com.tenwell.smalltalk.data.mongo;
 
 import java.time.LocalDateTime;
 
