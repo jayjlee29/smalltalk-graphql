@@ -1,10 +1,10 @@
 package com.tenwell.smalltalk.data.mongo;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Builder;
 import lombok.Getter;
-import nonapi.io.github.classgraph.json.Id;
 
 @Document
 @Getter
