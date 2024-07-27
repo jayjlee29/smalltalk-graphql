@@ -46,7 +46,7 @@ public class ArticleController {
         return Mono.empty();
     }
 
-    @PostMapping("")
+    @PostMapping
     public Mono<TenwellResponse<Article>> write(@RequestBody ArticleCreateRequest request) {
         log.info("write: {}", request);
         return articleService.writeArticle(request)

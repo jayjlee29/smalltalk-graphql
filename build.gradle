@@ -37,11 +37,11 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.projectlombok:lombok'
 
-	implementation 'io.springfox:springfox-swagger2:3.0.0'
-	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-
 	//check resource > .env file
 	testImplementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
+	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.6.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-webflux-api:2.6.0'
 
 }
 

@@ -53,6 +53,12 @@ public class ArticleService {
                         .title(request.getTitle())
                         .contents(request.getContents())
                         .tagList(tagList)
+                        .articleStatus(ArticleStatus.DRAFT)
+                        .author(request.getAuthor())
+                        .boardId(request.getBoardId())
+                        .catetoryList(new ArrayList<>())
+                        .createdAt(request.getAuthor())
+                        .updatedAt(request.getAuthor())
                         .build();
                 log.info("create article: {}", article);
                 return articleRepository.save(article);
@@ -60,10 +66,13 @@ public class ArticleService {
     }
 
     private Mono<Boolean> checkBoardWriteable(String boardId) {
+        if(boardId == null) {
+            return Mono.error(new TenwellException("Board Id is Empty"));
+        }
         return boardRepository.findById(boardId)
             .switchIfEmpty(Mono.error(new TenwellException("Board not found")))
             .flatMap(board -> {
-                return Mono.just(board.writable());
+                return Mono.just(board.checkBoardAvailable());
             });
     }
 

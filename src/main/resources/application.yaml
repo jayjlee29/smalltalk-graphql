@@ -2,7 +2,7 @@ spring:
     profiles:
         active: local
     application:
-        name: graphql-sample
+        name: graphql-samlltalk
     graphql:
         enabled: true
         path: /graphql
@@ -22,4 +22,10 @@ spring:
             root: INFO
             org.springframework.web: DEBUG
             com.tenwell.product: INFO
-    
+
+springdoc:
+    swagger-ui:
+        enabled: true
+        path: /swagger-ui.html
+    api-docs:
+        path: /v3/api-docs

@@ -26,6 +26,7 @@ public class ArticleControllerTest {
     void test001_게시글_쓰기() {
         log.info("게시글 쓰기 테스트");
         ArticleCreateRequest articleCreateRequest = ArticleCreateRequest.builder()
+            .boardId("66a4328cae71903257170dc8")
             .title("제목")
             .contents("내용")
             .author("작성자")
