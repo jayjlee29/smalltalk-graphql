@@ -72,5 +72,11 @@ public class Board {
         this.updatedAt = updatedAt;
     }
 
+    public void boardEnabled(boolean enabled, String updateBy) {
+        this.enabled = enabled;
+        this.updatedBy = updateBy;
+        this.updatedAt = LocalDateTime.now();
+    }
+
     
 }

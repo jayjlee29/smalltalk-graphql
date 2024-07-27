@@ -6,6 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.tenwell.smalltalk.data.http.BoardCreateRequest;
+import com.tenwell.smalltalk.data.http.BoardEnableRequest;
+
+import reactor.core.publisher.Mono;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BoardControllerTest {
@@ -23,6 +26,20 @@ public class BoardControllerTest {
                 .build())
             .exchange()
             .expectStatus().isOk();
+    }
+
+    @Test
+    void test002_게시판_활성화하기()    {
+
+        webTestClient.put().uri("/api/board/enable")
+            .bodyValue(BoardEnableRequest.builder()
+                .boardId("66a4328cae71903257170dc8")
+                .enabled(true)
+                .updatedBy("수정자")
+                .build())
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody().jsonPath("$.code").isEqualTo(200);
     }
 
 
