@@ -1,16 +1,20 @@
 package com.tenwell.smalltalk.controller;
 
+import org.springframework.data.redis.core.ReactiveRedisOperations;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.ReactiveRedisMessageListenerContainer;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.ContextValue;
 import org.springframework.graphql.data.method.annotation.GraphQlExceptionHandler;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
 import org.springframework.stereotype.Controller;
 
-import com.tenwell.smalltalk.config.ReactiveRedisStreamListener;
+import com.tenwell.smalltalk.authorizer.SimpleSessionToken;
+import com.tenwell.smalltalk.authorizer.TenwellSession;
+import com.tenwell.smalltalk.config.graphql.GraphqlStreamListener;
 
 import graphql.ErrorType;
 import graphql.GraphQLContext;
@@ -26,14 +30,12 @@ import reactor.core.publisher.Mono;
 @Controller
 @RequiredArgsConstructor
 public class TenwellController {
-
     
     final private ReactiveRedisMessageListenerContainer messageListener;
 
-    
-    final private ReactiveRedisStreamListener reactiveRedisStreamListener;
+    final private GraphqlStreamListener graphqlMessageListener;
 
-    final private RedisOperations<String, String> redisOperations;
+    final private ReactiveRedisOperations<String, String> redisOperations;
 
     @QueryMapping
     public String greeting() {
@@ -46,8 +48,9 @@ public class TenwellController {
     }
 
     @QueryMapping
-    public Flux<String> greetingsFlux() {
-        return Flux.just("Hello", "GraphQL", "World");
+    public Flux<String> greetingsFlux(@ContextValue(name="session") TenwellSession session) {
+        //TenwellSession session = context.get("session");
+        return Flux.just(session.getUserName(), session.getUserId());
     }
 
     @MutationMapping
@@ -56,11 +59,16 @@ public class TenwellController {
             @Argument("message") String message) {
 
         log.info("Publishing message: {} to topic: {}", message, topic);
-        Long numberOfClients = redisOperations.convertAndSend(topic, message);
-
-        return Mono.just(numberOfClients);
+        return redisOperations.convertAndSend(topic, message);
     }
 
+    /**
+     * redis pub/sub을 이용한 subscription
+     * @param env
+     * @param topic
+     * @param context
+     * @return
+     */
     @SubscriptionMapping
     public Flux<String> subscribe(DataFetchingEnvironment env, @Argument("topic") String topic, GraphQLContext context) {
 
@@ -72,9 +80,13 @@ public class TenwellController {
         });
     }
 
+    /**
+     * redis stream을 이용한 subscription
+     * @return
+     */
     @SubscriptionMapping
     public Flux<String> stream() {
-        return reactiveRedisStreamListener.receiveMessagesFromChannel("stream:channel").map(message -> {
+        return graphqlMessageListener.receiveMessagesFromChannel("stream:channel").map(message -> {
             log.info("Received message: {}", message);
             return message.getValue().get("message");
         });

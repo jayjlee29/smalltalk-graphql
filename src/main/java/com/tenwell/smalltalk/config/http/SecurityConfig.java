@@ -1,4 +1,4 @@
-package com.tenwell.smalltalk.config;
+package com.tenwell.smalltalk.config.http;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

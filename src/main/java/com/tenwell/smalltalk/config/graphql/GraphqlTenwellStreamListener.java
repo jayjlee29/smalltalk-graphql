@@ -1,4 +1,4 @@
-package com.tenwell.smalltalk.config;
+package com.tenwell.smalltalk.config.graphql;
 
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.connection.stream.MapRecord;
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 @Component
-public class ReactiveRedisStreamListener {
+public class GraphqlStreamListener {
     private final StreamReceiver<String, MapRecord<String, String, String>> streamReceiver;
 
-    public ReactiveRedisStreamListener(ReactiveRedisConnectionFactory factory) {
+    public GraphqlStreamListener(ReactiveRedisConnectionFactory factory) {
         this.streamReceiver = StreamReceiver.create(factory);
     }
 

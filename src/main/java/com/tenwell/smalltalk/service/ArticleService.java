@@ -8,14 +8,18 @@ import org.springframework.stereotype.Service;
 
 import com.tenwell.smalltalk.data.mongo.Article;
 import com.tenwell.smalltalk.data.mongo.Comment;
+import com.tenwell.smalltalk.data.mongo.LikeArticle;
 import com.tenwell.smalltalk.data.mongo.Tag;
+import com.tenwell.smalltalk.authorizer.TenwellSession;
 import com.tenwell.smalltalk.data.enums.ArticleStatus;
 import com.tenwell.smalltalk.data.http.ArticleCreateRequest;
+import com.tenwell.smalltalk.exception.ArticleNotFoundException;
 import com.tenwell.smalltalk.exception.ArticlePublishException;
 import com.tenwell.smalltalk.exception.TenwellException;
 import com.tenwell.smalltalk.repository.ArticleRepository;
 import com.tenwell.smalltalk.repository.BoardRepository;
 import com.tenwell.smalltalk.repository.CommentRepository;
+import com.tenwell.smalltalk.repository.LikeArticleRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +31,7 @@ import reactor.core.publisher.Mono;
 public class ArticleService {
 
     final private ArticleRepository articleRepository;
+    final private LikeArticleRepository likeArticleRepository;
     final private CommentRepository commentRepository;
     final private BoardRepository boardRepository;
 
@@ -35,7 +40,7 @@ public class ArticleService {
         return articleRepository.findById(id);
     }
 
-    public Mono<Article> writeArticle(ArticleCreateRequest request) {
+    public Mono<Article> writeArticle(TenwellSession session, ArticleCreateRequest request) {
 
         return checkBoardWriteable(request.getBoardId())
             .flatMap(isWriteable -> {
@@ -54,7 +59,7 @@ public class ArticleService {
                         .contents(request.getContents())
                         .tagList(tagList)
                         .articleStatus(ArticleStatus.DRAFT)
-                        .author(request.getAuthor())
+                        .author(session.getUserId())
                         .boardId(request.getBoardId())
                         .catetoryList(new ArrayList<>())
                         .createdAt(request.getAuthor())
@@ -114,5 +119,20 @@ public class ArticleService {
                             }));
                 });
     }
+
+    public Mono<Boolean> like(String articleId, TenwellSession session) {
+        return articleRepository.findById(articleId)
+            .switchIfEmpty(Mono.defer(() -> Mono.error(new ArticleNotFoundException(articleId))))
+            .map(article -> {
+                LikeArticle likeArticle = LikeArticle.builder()
+                    .articleId(articleId)
+                    .userId(session.getUserId())
+                    .build();
+                
+                return likeArticle;            
+            })
+            .flatMap(likeArticleRepository::save)
+            .map(likeArticle -> Boolean.TRUE);
+        }
 
 }

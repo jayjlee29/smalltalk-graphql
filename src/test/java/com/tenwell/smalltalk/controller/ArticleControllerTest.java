@@ -3,6 +3,7 @@ package com.tenwell.smalltalk.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -34,6 +35,7 @@ public class ArticleControllerTest {
             .build();
 
         webTestClient.post().uri("/api/article")
+            .header("Authorization", "test")
             .bodyValue(articleCreateRequest)
             .exchange()
             .expectStatus().isOk()
