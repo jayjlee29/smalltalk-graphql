@@ -49,9 +49,11 @@ public class ArticleService {
                     return Mono.error(new TenwellException("Board is not writable"));
                 }
                 
-                List<Tag> tagList = request.getTags() == null? new ArrayList<>() : Stream.of(request.getTags())
-                        .map(tag -> Tag.builder().name(tag).build())
-                        .toList();
+                List<Tag> tagList = request.getTags() == null? new ArrayList<>() : request.getTags().stream().map(tag -> {
+                    return Tag.builder()
+                        .name(tag)
+                        .build();
+                }).toList();
 
         
                 Article article = Article.builder()

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.tenwell.smalltalk.data.http.ArticleCreateRequest;
 
@@ -31,7 +33,7 @@ public class ArticleControllerTest {
             .title("제목")
             .contents("내용")
             .author("작성자")
-            .tags(new String[] {"태그1", "태그2"})
+            .tags(new ArrayList<>(Arrays.asList("tag1", "tag2", "tag3")))
             .build();
 
         webTestClient.post().uri("/api/article")

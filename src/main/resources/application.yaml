@@ -20,7 +20,8 @@ spring:
             password: ${SMALLTALK_REDIS_PASSWORD}
             username: ${SMALLTALK_REDIS_USENAME}
         mongodb:
-            uri: mongodb://admin:${SMALLTALK_MONGO_PASSWORD}@localhost:27017/tenwell?authSource=admin
+            #uri: mongodb://admin:${SMALLTALK_MONGO_PASSWORD}@localhost:27017/tenwell?authSource=admin
+            uri: mongodb+srv://tenwell:${SMALLTALK_MONGO_PASSWORD}@smalltalk-cluster.1ghcn.mongodb.net/smalltalk
     logging:
         level:
             root: INFO

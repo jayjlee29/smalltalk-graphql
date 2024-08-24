@@ -1,5 +1,7 @@
 package com.tenwell.smalltalk.data.mongo;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Builder;

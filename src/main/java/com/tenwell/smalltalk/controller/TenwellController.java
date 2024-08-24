@@ -11,24 +11,32 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 
 import com.tenwell.smalltalk.authorizer.SimpleSessionToken;
 import com.tenwell.smalltalk.authorizer.TenwellSession;
+import com.tenwell.smalltalk.client.ArticleLikePublisher;
 import com.tenwell.smalltalk.config.graphql.GraphqlTenwellStreamListener;
+import com.tenwell.smalltalk.data.http.ArticleCreateRequest;
+import com.tenwell.smalltalk.data.http.TenwellResponse;
+import com.tenwell.smalltalk.exception.TenwellException;
+import com.tenwell.smalltalk.service.ArticleService;
 
 import graphql.ErrorType;
 import graphql.GraphQLContext;
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-@Controller
 @RequiredArgsConstructor
+@Controller
+@Validated
 public class TenwellController {
     
     final private ReactiveRedisMessageListenerContainer messageListener;
@@ -36,6 +44,10 @@ public class TenwellController {
     final private GraphqlTenwellStreamListener graphqlMessageListener;
 
     final private ReactiveRedisOperations<String, String> redisOperations;
+
+    final private ArticleService articleService;
+
+    final private ArticleLikePublisher articleLikePublisher;
 
     @QueryMapping
     public String greeting() {
@@ -60,6 +72,17 @@ public class TenwellController {
 
         log.info("Publishing message: {} to topic: {}", message, topic);
         return redisOperations.convertAndSend(topic, message);
+    }
+
+    @MutationMapping
+    public Mono<TenwellResponse<Boolean>> createArticle(
+        @ContextValue(name="session") TenwellSession session,
+        @Valid @Argument(name="input") ArticleCreateRequest input) {
+
+        log.info("Creating article: {} {}", session, input);
+        return articleService.writeArticle(session, input)
+        .doOnSuccess(article -> log.info("Article created: {}", article))
+        .flatMap(article -> TenwellResponse.ok(true));
     }
 
     /**
@@ -95,7 +118,7 @@ public class TenwellController {
 
     @GraphQlExceptionHandler
     public GraphQLError handle(Exception ex) {
-        log.error("Error", ex);
+        log.error("Error GraphQL", ex);
         return GraphqlErrorBuilder.newError()
                 .message(ex.getMessage())
                 .errorType(ErrorType.DataFetchingException)

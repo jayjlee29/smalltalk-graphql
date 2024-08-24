@@ -11,10 +11,17 @@ import org.springframework.graphql.server.WebGraphQlResponse;
 
 import com.tenwell.smalltalk.authorizer.SimpleSessionToken;
 import com.tenwell.smalltalk.authorizer.TenwellSession;
+import com.tenwell.smalltalk.controller.TenwellController;
 
+import graphql.kickstart.tools.GraphQLResolver;
+import graphql.kickstart.tools.SchemaParser;
+import graphql.kickstart.tools.SchemaParserOptions;
+import graphql.schema.GraphQLSchema;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import java.util.Collections;
 
+@Slf4j
 @Configuration
 public class GraphqlTenwellConfig {
 
@@ -30,6 +37,15 @@ public class GraphqlTenwellConfig {
         return new ReactiveRedisMessageListenerContainer(factory);
     }
 
+    // @Bean
+    // public GraphQLSchema graphQLSchema(TenwellController tenwellController) {
+    //     return SchemaParser.newParser()
+    //             .files("graphql/schema.graphqls")
+    //             .resolvers(tenwellController)
+    //             .options(SchemaParserOptions.newOptions().build())
+    //             .build()
+    //             .makeExecutableSchema();
+    // }
     
     @Bean
     public WebGraphQlInterceptor graphqlInterceptor() {
@@ -38,7 +54,7 @@ public class GraphqlTenwellConfig {
             public Mono<WebGraphQlResponse> intercept(WebGraphQlRequest request, Chain chain) {
                 
                 String token = request.getHeaders().getFirst("Authorization");
-
+                log.info("token: {}", token);
                 TenwellSession session = new SimpleSessionToken();
                 session.parse(token);
                 
