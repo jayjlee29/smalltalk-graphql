@@ -25,7 +25,6 @@ spring:
         level:
             root: INFO
             #org.springframework.web: DEBUG
-            #com.tenwell.product: INFO
             me.paulschwarz.springdotenv: TRACE
 
 
