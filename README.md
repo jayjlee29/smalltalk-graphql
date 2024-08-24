@@ -1,16 +1,31 @@
-# graphql
+# SmallTalk
 
-## run redis 
+
+## Redis
+- run redis 
 ```
 docker run --rm -d -p 6379:6379 --name my-redis redis
 ```
 
-## run compose
+- run redis with compose 
 ```
 docker compose up
 ```
 
+- run redis with redislabs(Saas)
+https://app.redislabs.com/
+
 ---
+
+## MonogoDB
+
+- run mongodb with compose
+
+```
+docker compose up
+```
+
+
 
 ## GroupQL
 
@@ -36,3 +51,4 @@ query {
   greetingsFlux
 }
 ```
+
