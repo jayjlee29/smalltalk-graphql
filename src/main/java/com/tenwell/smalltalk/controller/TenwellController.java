@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import com.tenwell.smalltalk.authorizer.SimpleSessionToken;
 import com.tenwell.smalltalk.authorizer.TenwellSession;
-import com.tenwell.smalltalk.config.graphql.GraphqlStreamListener;
+import com.tenwell.smalltalk.config.graphql.GraphqlTenwellStreamListener;
 
 import graphql.ErrorType;
 import graphql.GraphQLContext;
@@ -33,7 +33,7 @@ public class TenwellController {
     
     final private ReactiveRedisMessageListenerContainer messageListener;
 
-    final private GraphqlStreamListener graphqlMessageListener;
+    final private GraphqlTenwellStreamListener graphqlMessageListener;
 
     final private ReactiveRedisOperations<String, String> redisOperations;
 

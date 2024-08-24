@@ -2,7 +2,7 @@ spring:
     profiles:
         active: local
     application:
-        name: graphql-samlltalk
+        name: spring-boot-graphql-smalltalk
     graphql:
         enabled: true
         path: /graphql
@@ -13,15 +13,21 @@ spring:
             path: /graphql-ws
     data:
         redis:
-            host: localhost
-            port: 6379
+            #host: localhost
+            #port: 6379
+            host: redis-11396.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com
+            port: 11396
+            password: ${SMALLTALK_REDIS_PASSWORD}
+            username: ${SMALLTALK_REDIS_USENAME}
         mongodb:
-            uri: mongodb://admin:${MONGODB_SMALLTALK_PASSWORD}@localhost:27017/tenwell?authSource=admin
+            uri: mongodb://admin:${SMALLTALK_MONGO_PASSWORD}@localhost:27017/tenwell?authSource=admin
     logging:
         level:
             root: INFO
-            org.springframework.web: DEBUG
-            com.tenwell.product: INFO
+            #org.springframework.web: DEBUG
+            #com.tenwell.product: INFO
+            me.paulschwarz.springdotenv: TRACE
+
 
 springdoc:
     swagger-ui:

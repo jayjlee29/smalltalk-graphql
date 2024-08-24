@@ -1,4 +1,4 @@
-package com.tenwell.smalltalk.config;
+package com.tenwell.smalltalk.config.http;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.reactive.BindingContext;

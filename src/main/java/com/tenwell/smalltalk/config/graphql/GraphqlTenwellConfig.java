@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 import java.util.Collections;
 
 @Configuration
-public class GraphqlConfig {
+public class GraphqlTenwellConfig {
 
     @Value("${spring.data.redis.host}")
     private String redisHost;

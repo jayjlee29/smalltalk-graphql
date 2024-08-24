@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 @Component
-public class GraphqlStreamListener {
+public class GraphqlTenwellStreamListener {
     private final StreamReceiver<String, MapRecord<String, String, String>> streamReceiver;
 
-    public GraphqlStreamListener(ReactiveRedisConnectionFactory factory) {
+    public GraphqlTenwellStreamListener(ReactiveRedisConnectionFactory factory) {
         this.streamReceiver = StreamReceiver.create(factory);
     }
 

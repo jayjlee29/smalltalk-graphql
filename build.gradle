@@ -39,6 +39,8 @@ dependencies {
 
 	//check resource > .env file
 	testImplementation 'me.paulschwarz:spring-dotenv:4.0.0'
+	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
 
 	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.6.0'
 	implementation 'org.springdoc:springdoc-openapi-starter-webflux-api:2.6.0'

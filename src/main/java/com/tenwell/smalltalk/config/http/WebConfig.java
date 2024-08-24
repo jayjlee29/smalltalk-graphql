@@ -4,8 +4,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.result.method.annotation.ArgumentResolverConfigurer;
 
-import com.tenwell.smalltalk.config.WebTenwellSessionResolver;
-
 @Configuration
 public class WebConfig implements WebFluxConfigurer {
 
