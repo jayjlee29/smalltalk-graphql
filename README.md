@@ -27,7 +27,17 @@ docker compose up
 
 
 
-## GroupQL
+## GraphQL
+
+- Playground 브라우저 접속
+  - http://localhost:8080/graphiql?path=/graphql&wsPath=/graphql-ws
+
+
+- Authorization 
+
+```
+{"Authorization": "{userId}"}
+```
 
 - Subscription
 ```
@@ -51,4 +61,38 @@ query {
   greetingsFlux
 }
 ```
+- 게시판 생성
 
+```
+mutation board {
+  createBoard (input: {
+		name: "게시판"
+    description: "자유게시판"
+  }) {
+    code
+    message
+    data {
+    	...on Board {
+      	id
+    	}  
+    }
+  }
+}
+```
+
+- 게시글 쓰기
+
+```
+mutation article {
+  createArticle (input: {
+    boardId: "66cad594ed126a5a4d22bd36"
+    title: "asdfas"
+    contents: "asdfasfs"
+    author: "aaa"
+    tags: ["tag1"]
+  }) {
+    code
+    message
+  }
+}
+```
