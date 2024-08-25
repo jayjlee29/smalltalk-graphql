@@ -1,5 +1,6 @@
 package com.tenwell.smalltalk.data.mongo;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -28,10 +29,6 @@ public class Article {
     private String contents;
     @Field("author")
     private String author;
-    @Field("createdAt")
-    private String createdAt;
-    @Field("updatedAt")
-    private String updatedAt;
     @Field("articleStatus")
     private ArticleStatus articleStatus; 
     @Field("catetoryList")
@@ -39,19 +36,31 @@ public class Article {
     @Field("tagList")
     private List<Tag> tagList;
 
+    @Field("createdAt") @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();;
+
+    @Field("createdBy")
+    private String createdBy;
+
+    @Field("updatedAt") @Builder.Default
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @Field("updatedBy")
+    private String updatedBy;
+
     protected Article() {}
     
-    public Article(String id, String boardId, String title, String contents, String author, String createdAt, String updatedAt, ArticleStatus articleStatus, List<String> catetoryList, List<Tag> tagList) {
-        this.id = id;
+    @Builder
+    public Article(String boardId, String title, String contents, String author, ArticleStatus articleStatus, List<String> catetoryList, List<Tag> tagList, String createdBy, String updatedBy) {
         this.boardId = boardId;
         this.title = title;
         this.contents = contents;
         this.author = author;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
         this.articleStatus = articleStatus;
         this.catetoryList = catetoryList;
         this.tagList = tagList;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
     }
 
     public boolean publish() {

@@ -64,8 +64,6 @@ public class ArticleService {
                         .author(session.getUserId())
                         .boardId(request.getBoardId())
                         .catetoryList(new ArrayList<>())
-                        .createdAt(request.getAuthor())
-                        .updatedAt(request.getAuthor())
                         .build();
                 log.info("create article: {}", article);
                 return articleRepository.save(article);

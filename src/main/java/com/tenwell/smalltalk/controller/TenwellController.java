@@ -18,9 +18,12 @@ import com.tenwell.smalltalk.authorizer.TenwellSession;
 import com.tenwell.smalltalk.client.ArticleLikePublisher;
 import com.tenwell.smalltalk.config.graphql.GraphqlTenwellStreamListener;
 import com.tenwell.smalltalk.data.http.ArticleCreateRequest;
+import com.tenwell.smalltalk.data.http.BoardCreateRequest;
 import com.tenwell.smalltalk.data.http.TenwellResponse;
+import com.tenwell.smalltalk.data.mongo.Board;
 import com.tenwell.smalltalk.exception.TenwellException;
 import com.tenwell.smalltalk.service.ArticleService;
+import com.tenwell.smalltalk.service.BoardService;
 
 import graphql.ErrorType;
 import graphql.GraphQLContext;
@@ -47,7 +50,7 @@ public class TenwellController {
 
     final private ArticleService articleService;
 
-    final private ArticleLikePublisher articleLikePublisher;
+    final private BoardService boardService;
 
     @QueryMapping
     public String greeting() {
@@ -83,6 +86,18 @@ public class TenwellController {
         return articleService.writeArticle(session, input)
         .doOnSuccess(article -> log.info("Article created: {}", article))
         .flatMap(article -> TenwellResponse.ok(true));
+    }
+
+    @MutationMapping
+    public Mono<TenwellResponse<Board>> createBoard(
+        @ContextValue(name="session") TenwellSession session,
+        @Valid @Argument(name="input") BoardCreateRequest request) {
+
+        log.info("Creating board: {} {}", session, request);
+        return boardService.createBoard(session, request)
+        .doOnSuccess(board -> log.info("Board created: {}", board))
+        .flatMap(board-> TenwellResponse.ok(board));
+        
     }
 
     /**

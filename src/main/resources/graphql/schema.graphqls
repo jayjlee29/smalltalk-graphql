@@ -12,6 +12,14 @@ type Subscription {
 type Mutation {
     publish(topic: String, message: String ): Int
     createArticle(input: ArticleCreateRequest): TenwellResponse
+    createBoard(input: BoardCreateRequest): TenwellResponse
+}
+
+
+input BoardCreateRequest {
+    name: String
+    description: String
+    enabled: Boolean
 }
 
 input ArticleCreateRequest {
@@ -22,7 +30,8 @@ input ArticleCreateRequest {
     tags: [String]
 }
 
-union ResponseData = BooleanWrapper | Article
+
+union ResponseData = BooleanWrapper | Article | Board
 
 type BooleanWrapper {
     value: Boolean
@@ -36,9 +45,22 @@ type TenwellResponse {
 }
 
 type Article {
-    boardId: String
-    title: String
-    contents: String
-    author: String
+    id: ID
+    boardId: String!
+    title: String!
+    contents: String!
+    author: String!
     tags: [String]
+    createdBy: String
+    updatedBy: String
+}
+
+type Board {
+    id: ID
+    name: String
+    description: String
+    deleted: Boolean
+    enabled: Boolean
+    createdBy: String
+    updatedBy: String
 }

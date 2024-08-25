@@ -19,10 +19,10 @@ public class BoardControllerTest {
     @Test
     void test001_게시판_생성() {
         webTestClient.post().uri("/api/board")
+            .header("Authorization", "test001")
             .bodyValue(BoardCreateRequest.builder()
                 .name("게시판 이름")
-                .description("게시판 설명")
-                .createdBy("생성자")
+                .description("게시판 설명")                
                 .build())
             .exchange()
             .expectStatus().isOk();

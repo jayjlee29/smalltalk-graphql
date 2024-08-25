@@ -2,6 +2,7 @@ package com.tenwell.smalltalk.service;
 
 import org.springframework.stereotype.Service;
 
+import com.tenwell.smalltalk.authorizer.TenwellSession;
 import com.tenwell.smalltalk.data.http.BoardCreateRequest;
 import com.tenwell.smalltalk.data.http.BoardEnableRequest;
 import com.tenwell.smalltalk.data.mongo.Board;
@@ -17,15 +18,16 @@ public class BoardService {
 
     final private BoardRepository boardRepository;
 
-    public Mono<Board> createBoard(BoardCreateRequest request) {
+    public Mono<Board> createBoard(TenwellSession session, BoardCreateRequest request) {
         return boardRepository.save(Board.builder()
             .name(request.getName())
             .description(request.getDescription())
-            .createdBy(request.getCreatedBy())
-            .updatedBy(request.getCreatedBy())
+            .createdBy(session.getUserId())
+            .updatedBy(session.getUserId())
             .enabled(request.getEnabled() == null ? false:request.getEnabled())
             .build());
     }
+    
 
     public Mono<Boolean> checkBoardAvailable(String boardId) {
         return boardRepository.findById(boardId)

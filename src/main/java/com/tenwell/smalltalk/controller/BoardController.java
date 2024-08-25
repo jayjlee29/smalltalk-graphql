@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tenwell.smalltalk.authorizer.TenwellSession;
 import com.tenwell.smalltalk.data.http.BoardCreateRequest;
 import com.tenwell.smalltalk.data.http.BoardEnableRequest;
 import com.tenwell.smalltalk.data.http.TenwellResponse;
@@ -25,16 +26,16 @@ public class BoardController {
     final private BoardService boardService;
 
     @PostMapping
-    public Mono<TenwellResponse<Board>> createBoard(@RequestBody BoardCreateRequest request) {
+    public Mono<TenwellResponse<Board>> createBoard(TenwellSession session, @RequestBody BoardCreateRequest request) {
         log.info("createBoard");
 
-        return boardService.createBoard(request)
+        return boardService.createBoard(session, request)
             .doOnSuccess(board -> log.info("Board created: {}", board))
             .flatMap(board -> TenwellResponse.ok(board));
     }
 
     @PutMapping("/enable")
-    public Mono<TenwellResponse<Boolean>> enableBoard(@RequestBody BoardEnableRequest request) {
+    public Mono<TenwellResponse<Boolean>> enableBoard(TenwellSession session, @RequestBody BoardEnableRequest request) {
         log.info("enableBoard {}", request);
 
         return boardService.enableBoard(request)

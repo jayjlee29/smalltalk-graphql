@@ -11,15 +11,13 @@ public class BoardCreateRequest {
 
     private String name;
     private String description;
-    private String createdBy;
     private Boolean enabled;
 
     protected BoardCreateRequest() {}
 
-    protected BoardCreateRequest(String name, String description, String createdBy, Boolean enabled) {
+    protected BoardCreateRequest(String name, String description, Boolean enabled) {
         this.name = name;
         this.description = description;
-        this.createdBy = createdBy;
         this.enabled = enabled;
     }
 
