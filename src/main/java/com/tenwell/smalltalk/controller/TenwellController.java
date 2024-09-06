@@ -131,13 +131,13 @@ public class TenwellController {
 
     }
 
-    @GraphQlExceptionHandler
-    public GraphQLError handle(Exception ex) {
-        log.error("Error GraphQL", ex);
-        return GraphqlErrorBuilder.newError()
-                .message(ex.getMessage())
-                .errorType(ErrorType.DataFetchingException)
-                .build();
-    }
+    // @GraphQlExceptionHandler
+    // public GraphQLError handle(Exception ex) {
+    //     log.error("Error GraphQL", ex);
+    //     return GraphqlErrorBuilder.newError()
+    //             .message(ex.getMessage())
+    //             .errorType(ErrorType.DataFetchingException)
+    //             .build();
+    // }
 
 }

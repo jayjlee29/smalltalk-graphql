@@ -2,7 +2,10 @@ type Query {
     greeting: String
     greetingMono : String
     greetingsFlux : [String]
+    getArticles: TenwellListResponse
+    getBoards: TenwellListResponse
 }
+
 
 type Subscription {
     subscribe(topic: String): String
@@ -13,12 +16,18 @@ type Mutation {
     publish(topic: String, message: String ): Int
     createArticle(input: ArticleCreateRequest): TenwellResponse
     createBoard(input: BoardCreateRequest): TenwellResponse
+    enableBoard(input: BoardEnableRequest) : TenwellResponse
 }
 
 
 input BoardCreateRequest {
     name: String
     description: String
+    enabled: Boolean
+}
+
+input BoardEnableRequest {
+    boardId: String
     enabled: Boolean
 }
 
@@ -30,6 +39,8 @@ input ArticleCreateRequest {
     tags: [String]
 }
 
+scalar LocalDateTime
+scalar LocalDate
 
 union ResponseData = BooleanWrapper | Article | Board
 
@@ -44,6 +55,12 @@ type TenwellResponse {
     message: String
 }
 
+type TenwellListResponse {
+    code: Int
+    data: [Board]
+    message: String
+}
+
 type Article {
     id: ID
     boardId: String!
@@ -52,7 +69,9 @@ type Article {
     author: String!
     tags: [String]
     createdBy: String
+    createdAt: LocalDateTime
     updatedBy: String
+    updatedAt: LocalDateTime
 }
 
 type Board {
@@ -62,5 +81,8 @@ type Board {
     deleted: Boolean
     enabled: Boolean
     createdBy: String
+    createdAt: LocalDateTime
     updatedBy: String
+    updatedAt: LocalDateTime
 }
+

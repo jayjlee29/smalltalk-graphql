@@ -11,10 +11,10 @@ import org.springframework.graphql.server.WebGraphQlResponse;
 
 import com.tenwell.smalltalk.authorizer.SimpleSessionToken;
 import com.tenwell.smalltalk.authorizer.TenwellSession;
-
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import java.util.Collections;
+
 @Slf4j
 @Configuration
 public class GraphqlTenwellConfig {

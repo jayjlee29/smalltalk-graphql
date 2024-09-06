@@ -1,5 +1,6 @@
 package com.tenwell.smalltalk.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.tenwell.smalltalk.authorizer.TenwellSession;
@@ -11,6 +12,8 @@ import com.tenwell.smalltalk.repository.BoardRepository;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -43,6 +46,12 @@ public class BoardService {
             })
             .flatMap(boardRepository::save)
             .map(board -> board.checkBoardAvailable());
+    }
+
+    public Mono<List<Board>> getBoards() {
+        return boardRepository.findAll(Sort.by("_id").descending())
+            .collectList();
+
     }
 
 }
