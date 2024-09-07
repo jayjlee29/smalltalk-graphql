@@ -11,6 +11,8 @@ import org.springframework.graphql.server.WebGraphQlResponse;
 
 import com.tenwell.smalltalk.authorizer.SimpleSessionToken;
 import com.tenwell.smalltalk.authorizer.TenwellSession;
+
+import graphql.schema.DataFetchingEnvironment;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import java.util.Collections;
@@ -18,6 +20,8 @@ import java.util.Collections;
 @Slf4j
 @Configuration
 public class GraphqlTenwellConfig {
+
+   
 
     @Value("${spring.data.redis.host}")
     private String redisHost;
@@ -30,7 +34,6 @@ public class GraphqlTenwellConfig {
 
         return new ReactiveRedisMessageListenerContainer(factory);
     }
-
 
     // @Bean
     // public GraphQLSchema graphQLSchema(TenwellController tenwellController) {
@@ -53,10 +56,15 @@ public class GraphqlTenwellConfig {
                 TenwellSession session = new SimpleSessionToken();
                 session.parse(token);
                 
+
                 request.configureExecutionInput((executionInput, builder) ->
-                        builder.graphQLContext(Collections.singletonMap("session", session))
+                        builder.graphQLContext(Collections.singletonMap(SimpleSessionToken.SESSION_KEY , session))
                         .build());
-                return chain.next(request);
+                
+                return chain.next(request).contextWrite(ctx->{
+                    log.info("context: {}", ctx);
+                    return ctx.put(SimpleSessionToken.SESSION_KEY, session);
+                });
             }
         };
     }

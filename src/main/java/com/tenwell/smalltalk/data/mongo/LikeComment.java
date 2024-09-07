@@ -18,5 +18,16 @@ public class LikeComment {
     private String userId;
     private String createdAt;
     private String updatedAt;
+    protected LikeComment() {
+    }
+    protected LikeComment(String id, String articleId, String userId, String createdAt, String updatedAt) {
+        this.id = id;
+        this.articleId = articleId;
+        this.userId = userId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    
 
 }

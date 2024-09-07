@@ -53,24 +53,20 @@ public class Board {
 
     protected Board() {}
     
-    protected Board(String name, String description, String createdBy, String updatedBy) {
+    
+    protected Board(String id, String name, String description, boolean deleted, boolean enabled, LocalDateTime createdAt,
+            String createdBy, LocalDateTime updatedAt, String updatedBy) {
+        this.id = id;
         this.name = name;
         this.description = description;
-        this.createdBy = createdBy;
-        this.updatedBy = updatedBy;
-    }
-
-    @Builder
-    protected Board(String name, String description, String createdBy, String updatedBy, boolean deleted, boolean enabled, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.name = name;
-        this.description = description;
-        this.createdBy = createdBy;
-        this.updatedBy = updatedBy;
         this.deleted = deleted;
         this.enabled = enabled;
         this.createdAt = createdAt;
+        this.createdBy = createdBy;
         this.updatedAt = updatedAt;
+        this.updatedBy = updatedBy;
     }
+
 
     public void boardEnabled(boolean enabled, String updateBy) {
         this.enabled = enabled;

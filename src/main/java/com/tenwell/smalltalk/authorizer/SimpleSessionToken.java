@@ -1,13 +1,10 @@
 package com.tenwell.smalltalk.authorizer;
-
-import org.springframework.stereotype.Component;
-
-import lombok.Builder;
-import lombok.Getter;
 import lombok.ToString;
 
 @ToString
 public class SimpleSessionToken implements TenwellSession{
+
+    final static public String SESSION_KEY = "session";
 
     private String token;
     private String userId;

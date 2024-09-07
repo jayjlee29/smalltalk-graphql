@@ -23,9 +23,8 @@ public class GraphqlTenwellScalarConfig {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private final DateTimeFormatter localDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
 
-    
     @Bean
     public GraphQLScalarType localDateTimeScalarType() {
         return GraphQLScalarType.newScalar()
@@ -35,7 +34,7 @@ public class GraphqlTenwellScalarConfig {
                     @Override
                     public String serialize(final Object dataFetcherResult) {
                         if (dataFetcherResult instanceof LocalDateTime) {
-                            return localDateTimeFormatter.format((LocalDate) dataFetcherResult);
+                            return dateTimeFormatter.format((LocalDateTime) dataFetcherResult);
                         } else {
                             throw new CoercingSerializeException("Expected a LocalDate object.");
                         }
@@ -45,13 +44,12 @@ public class GraphqlTenwellScalarConfig {
                     public LocalDateTime parseValue(final Object input) {
                         try {
                             if (input instanceof String) {
-                                return LocalDateTime.parse((String) input, localDateTimeFormatter);
+                                return LocalDateTime.parse((String) input, dateTimeFormatter);
                             } else {
                                 throw new CoercingParseValueException("Expected a String");
                             }
                         } catch (DateTimeParseException e) {
-                            throw new CoercingParseValueException(String.format("Not a valid date: '%s'.", input), e
-                            );
+                            throw new CoercingParseValueException(String.format("Not a valid date: '%s'.", input), e);
                         }
                     }
 
