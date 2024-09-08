@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
 
@@ -7,88 +7,57 @@ import { FaDeleteLeft } from "react-icons/fa6";
 import { IoEyeSharp } from "react-icons/io5"; // 눈 O
 import { BsEyeSlashFill } from "react-icons/bs"; // 눈 X
 
-/*
-  TODO: 
-  
-  - label 태그 ui는 naver login 참고해서 변경(input 태그 focus일 때 위치 조정)
-  - 소셜 로그인(네이버, 구글)
-*/
-
 const SigninPage = () => {
-  // pwd input
-  const [pwdView, setPwdView] = useState<Boolean>(false);
+  // input values
+  const [idValue, setIdValue] = useState<string>("");
+  const [pwdView, setPwdView] = useState<boolean>(false);
   const [pwdValue, setPwdValue] = useState<string>("");
 
+  const idInputRef = useRef<HTMLInputElement>(null);
+  const pwdInputRef = useRef<HTMLInputElement>(null);
+
   // 지우기 버튼 => 아이콘 사용(해당 input의 value만 삭제)
-  const handleInputVal = (inputId: string, event: React.MouseEvent) => {
-    event.stopPropagation();
-
-    const inputTag: HTMLInputElement = document.getElementById(
-      inputId
-    ) as HTMLInputElement;
-
-    if (inputTag) {
-      inputTag.value = "";
-      inputTag.focus(); // focus 유지
+  const handleInputClear = (
+    setter: React.Dispatch<React.SetStateAction<string>>,
+    inputRef: React.RefObject<HTMLInputElement>
+  ) => {
+    setter("");
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
-  };
-
-  const handleFocus = (focusTagId: string, event: React.MouseEvent): void => {
-    event.stopPropagation();
-
-    const inputs = ["input_id", "input_pwd"];
-    inputs.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) el.classList.remove("focus");
-    });
-
-    const focusEl = document.getElementById(focusTagId);
-    if (focusEl) focusEl.classList.add("focus");
   };
 
   // 비밀번호 보기
-  const handlePwdView = (pwdElId: string, event: React.MouseEvent) => {
-    event.stopPropagation();
+  const togglePwdView = () => {
+    setPwdView((prev) => !prev);
+  };
 
-    const pwdEl: HTMLInputElement = document.getElementById(
-      pwdElId
-    ) as HTMLInputElement;
-
-    if (pwdEl) {
-      pwdEl.type = pwdEl.type === "password" ? "text" : "password";
-      setPwdView(!pwdView);
-      pwdEl.focus(); // focus 유지
+  // 커서 위치 설정
+  useLayoutEffect(() => {
+    if (pwdInputRef.current) {
+      pwdInputRef.current.focus();
+      const length = pwdInputRef.current.value.length;
+      pwdInputRef.current.setSelectionRange(length, length);
     }
-  };
-
-  // 전체 input tag focus 삭제용
-  const handlePageClick = (): void => {
-    const inputs = ["input_id", "input_pwd"];
-    inputs.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) el.classList.remove("focus");
-    });
-  };
+  }, [pwdView]);
 
   return (
-    <div onClick={handlePageClick}>
-      <div className="m-auto mt-16 lg:w-[650px] md:w-[500px] sm:w-[370px] border border-slate-400 bg-slate-200 rounded-md">
-        <form className="m-auto lg:w-[600px] md:w-[450px] sm:w-[340px] h-[550px]">
+    <div>
+      <div className="m-auto mt-16 w-[370px] lg:w-[650px] md:w-[500px] border border-slate-400 bg-slate-200 rounded-md">
+        <form className="m-auto w-[230px] lg:w-[600px] md:w-[450px] sm:w-[340px] h-[550px]">
           <div className="w-52 m-auto text-[22px] mt-8 mb-8">
             Welcome Small Talk
           </div>
           <div className="m-auto mb-4 h-[300px] flex flex-col justify-center">
-            <div
-              id="input_id"
-              className="m-auto mt-1 mb-0 w-[450px] h-[50px] relative border border-slate-100 bg-white"
-            >
+            <div className="m-auto mt-1 mb-0 w-[300px] md:w-[450px] h-[50px] relative border border-slate-100 bg-white">
               <input
-                id="id"
+                ref={idInputRef}
                 aria-label="ID"
                 name="id"
                 maxLength={41}
-                onClick={(e) => handleFocus("input_id", e)}
-                className="absolute top-2 left-[68px] m-auto mt-1 mb-2 w-[300px] outline-none text-[17px] z-[5]"
+                onChange={(e) => setIdValue(e.target.value)}
+                value={idValue}
+                className="absolute top-2 left-[68px] m-auto mt-1 mb-2 w-[200px] md:w-[300px] outline-none text-[17px] z-[5]"
               />
               <label
                 htmlFor="id"
@@ -96,26 +65,23 @@ const SigninPage = () => {
               >
                 아이디
               </label>
-              <FaDeleteLeft
-                onClick={(e: React.MouseEvent) => handleInputVal("id", e)}
-                className="absolute top-2 right-2 z-10"
-              />
+              {idValue.length > 0 && (
+                <FaDeleteLeft
+                  onClick={() => handleInputClear(setIdValue, idInputRef)}
+                  className="absolute top-2 right-2 z-10"
+                />
+              )}
             </div>
-            <div
-              id="input_pwd"
-              className="m-auto mt-0 mb-3 w-[450px] h-[50px] relative border border-slate-100 bg-white"
-            >
+            <div className="m-auto mt-0 mb-3 w-[300px] md:w-[450px] h-[50px] relative border border-slate-100 bg-white">
               <input
+                ref={pwdInputRef}
                 type={pwdView ? "text" : "password"}
-                id="pwd"
                 aria-label="Password"
                 name="pwd"
                 maxLength={21}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setPwdValue(e.target.value)
-                }
-                onClick={(e: React.MouseEvent) => handleFocus("input_pwd", e)}
-                className="absolute top-2 left-[68px] m-auto mt-1 mb-2 w-[300px] outline-none text-[17px] z-[5]"
+                onChange={(e) => setPwdValue(e.target.value)}
+                value={pwdValue}
+                className="absolute top-2 left-[68px] m-auto mt-1 mb-2 w-[200px] md:w-[300px] outline-none text-[17px] z-[5]"
               />
               <label
                 htmlFor="pwd"
@@ -123,19 +89,21 @@ const SigninPage = () => {
               >
                 비밀번호
               </label>
-              <FaDeleteLeft
-                onClick={(e: React.MouseEvent) => handleInputVal("pwd", e)}
-                className="absolute top-2 right-2 z-10"
-              />
+              {pwdValue.length > 0 && (
+                <FaDeleteLeft
+                  onClick={() => handleInputClear(setPwdValue, pwdInputRef)}
+                  className="absolute top-2 right-2 z-10"
+                />
+              )}
               {pwdValue.length > 0 &&
                 (pwdView ? (
                   <IoEyeSharp
-                    onClick={(e: React.MouseEvent) => handlePwdView("pwd", e)}
+                    onClick={togglePwdView}
                     className="absolute top-2 right-8 z-10"
                   />
                 ) : (
                   <BsEyeSlashFill
-                    onClick={(e: React.MouseEvent) => handlePwdView("pwd", e)}
+                    onClick={togglePwdView}
                     className="absolute top-2 right-8 z-10"
                   />
                 ))}
