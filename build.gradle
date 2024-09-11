@@ -17,40 +17,9 @@ repositories {
 
 dependencies {
 
-	implementation 'org.springframework.boot:spring-boot-starter-graphql'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
-	testImplementation 'org.springframework.graphql:spring-graphql-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'com.graphql-java-kickstart:graphql-java-tools:12.0.0'
-	implementation 'com.graphql-java:graphql-java-extended-scalars:22.0'
-
-    
-
-	implementation 'com.graphql-java:graphql-java:17.3'
-	compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.projectlombok:lombok'
-
-	//check resource > .env file
-	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
-
-
-	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.6.0'
-	implementation 'org.springdoc:springdoc-openapi-starter-webflux-api:2.6.0'
 
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs << "-parameters"
 }

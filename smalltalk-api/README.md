@@ -96,3 +96,36 @@ mutation article {
   }
 }
 ```
+
+
+- 게시글 가져오기(페이징)
+```
+query Article {
+  getArticles(input: {
+    boardId: "66cad594ed126a5a4d22bd36",
+    pageNo: 1,
+    pageSize: 5
+  }) {
+    code
+    message
+    data {
+      ...on PageResult {
+      	pageNo
+        pageSize
+        totalCount
+        count
+        items {
+          ...on Article {
+            id
+            boardId
+            title
+            contents
+            createdBy
+            createdAt
+          }
+        }
+      }
+    }
+  }
+}
+```
