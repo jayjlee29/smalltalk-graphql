@@ -38,3 +38,5 @@ out/
 
 ### dev env ###
 .env
+
+.DS_Store
