@@ -1,3 +1,1 @@
-rootProject.name = 'smalltalk'
-
-project(':smalltalk-api')
+rootProject.name = 'smalltalk-graphql'
