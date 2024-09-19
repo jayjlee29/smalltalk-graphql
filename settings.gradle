@@ -1,2 +1,2 @@
 rootProject.name = 'smalltalk-graphql'
-include('smalltalk-api')
+include 'smalltalk-api'

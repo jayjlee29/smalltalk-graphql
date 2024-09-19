@@ -1,15 +1,17 @@
 # SmallTalk
 
+## Run Client (ReactJS) on localhost
+
+```sh
+docker compose up reactjs
+```
 
 ## Redis
-- run redis 
-```
-docker run --rm -d -p 6379:6379 --name my-redis redis
-```
 
 - run redis with compose 
-```
-docker compose up
+
+```sh
+docker compose up redis
 ```
 
 - run redis with redislabs(Saas)
@@ -21,8 +23,8 @@ https://app.redislabs.com/
 
 - run mongodb with compose
 
-```
-docker compose up
+```sh
+docker compose up mongodb
 ```
 
 
