@@ -1,4 +1,5 @@
 # SmallTalk
+- 그냥저냥 주저리주저리들
 
 ## Run Client (ReactJS) on localhost
 
