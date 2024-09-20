@@ -10,7 +10,6 @@ import com.tenwell.smalltalk.authorizer.TenwellSession;
 import reactor.core.publisher.Mono;
 
 public class WebTenwellSessionResolver implements HandlerMethodArgumentResolver {
-   
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -19,9 +18,8 @@ public class WebTenwellSessionResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public Mono<Object> resolveArgument(MethodParameter parameter, BindingContext bindingContext, ServerWebExchange exchange) {
-        String token = exchange.getRequest().getHeaders().getFirst("Authorization");
-        TenwellSession session = new SimpleSessionToken();
-        session.parse(token);
+        String token = exchange.getRequest().getHeaders().getFirst(SimpleSessionToken.AUTHORIZATION_HEADER);
+        TenwellSession session = SimpleSessionToken.buildToken(token);
         return Mono.just(session);
     }
 

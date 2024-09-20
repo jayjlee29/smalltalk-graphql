@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @ToString
 public class SimpleSessionToken implements TenwellSession{
-
+    final static public String AUTHORIZATION_HEADER = "Authorization";
     final static public String SESSION_KEY = "session";
 
     private String token;
@@ -50,6 +50,12 @@ public class SimpleSessionToken implements TenwellSession{
 
         this.userId = decodedToken;
         this.userName = decodedToken;
+    }
+
+    public static TenwellSession buildToken(String token) {
+        SimpleSessionToken session = new SimpleSessionToken();
+        session.parse(token);
+        return session;
     }
 
     public static TenwellSession anonymous() {
