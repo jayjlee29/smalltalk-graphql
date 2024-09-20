@@ -1,4 +1,6 @@
 package com.tenwell.smalltalk.authorizer;
+import java.util.Base64;
+
 import lombok.ToString;
 
 @ToString
@@ -39,7 +41,14 @@ public class SimpleSessionToken implements TenwellSession{
     public void parse(String token) {
         // TODO Auto-generated method stub
         this.token = token;
+        Base64.Decoder decoder = Base64.getDecoder();
+        String decodedToken = new String(decoder.decode(token));
+        decodedToken = decodedToken.replace("USER ", "");
         this.userId = token;
         this.userName = token;
+    }
+
+    public static TenwellSession anonymous() {
+        return new SimpleSessionToken(null, "anonymous", "anonymous");
     }
 }
