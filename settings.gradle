@@ -1,1 +1,2 @@
-rootProject.name = 'spring-boot-graphql-smalltalk'
+rootProject.name = 'smalltalk-graphql'
+include 'smalltalk-api'
