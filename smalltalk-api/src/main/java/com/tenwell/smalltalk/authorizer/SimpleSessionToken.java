@@ -40,12 +40,16 @@ public class SimpleSessionToken implements TenwellSession{
     @Override
     public void parse(String token) {
         // TODO Auto-generated method stub
-        this.token = token;
+        if(token == null) {
+            throw new IllegalArgumentException("token is null");
+        }
+        
+        this.token = token.replace("USER ", "");
         Base64.Decoder decoder = Base64.getDecoder();
         String decodedToken = new String(decoder.decode(token));
-        decodedToken = decodedToken.replace("USER ", "");
-        this.userId = token;
-        this.userName = token;
+
+        this.userId = decodedToken;
+        this.userName = decodedToken;
     }
 
     public static TenwellSession anonymous() {
