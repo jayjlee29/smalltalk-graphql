@@ -43,10 +43,10 @@ public class SimpleSessionToken implements TenwellSession{
         if(token == null) {
             throw new IllegalArgumentException("token is null");
         }
-        
+
         this.token = token.replace("USER ", "");
         Base64.Decoder decoder = Base64.getDecoder();
-        String decodedToken = new String(decoder.decode(token));
+        String decodedToken = new String(decoder.decode(this.token));
 
         this.userId = decodedToken;
         this.userName = decodedToken;
