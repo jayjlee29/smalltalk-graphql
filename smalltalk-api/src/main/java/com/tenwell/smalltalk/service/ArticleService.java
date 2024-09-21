@@ -122,20 +122,36 @@ public class ArticleService {
                 .flatMap(articleRepository::save);
     }
 
-    public Mono<Article> publishArticle(String articleId) {
+    public Mono<Article> publishArticle(TenwellSession session, String articleId) {
+        if(StringUtils.isEmpty(articleId)) {
+            return Mono.error(new ArticleNotFoundException("Article Id is Empty"));
+        }
         return articleRepository.findById(articleId)
                 .map(article -> {
+
+                    if(article.getCreatedBy().compareTo(session.getUserId()) != 0) {
+                        throw new ArticlePublishException("Article is not created by user");
+                    }
                     
-                    if(!article.publish()) {
+                    if(ArticleStatus.PUBLISHED == article.getArticleStatus()) {
                         throw new ArticlePublishException("Article is already published");
                     }
 
-                    return article;
+                    if( ArticleStatus.DRAFT != article.getArticleStatus() ) {
+                        throw new ArticlePublishException("Article is not draft");
+                    }
+                    
+                    boolean r = article.publish(session.getUserId());
+                    if(r) {
+                        return article;
+                    } else {
+                        throw new ArticlePublishException("Article is not published");
+                    }
                 })
                 .flatMap(articleRepository::save);
     }
 
-    public Mono<Article> wrtieComment(String articleId, Comment newComment) {
+    public Mono<Article> writeComment(String articleId, Comment newComment) {
 
         return articleRepository.findById(articleId)
                 .flatMap(article -> {

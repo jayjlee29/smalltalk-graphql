@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.tenwell.smalltalk.authorizer.TenwellSession;
 import com.tenwell.smalltalk.data.http.ArticleCreateRequest;
+import com.tenwell.smalltalk.data.http.ArticlePublishRequest;
 import com.tenwell.smalltalk.data.http.ArticleQueryRequest;
 import com.tenwell.smalltalk.data.http.TenwellResponse;
 import com.tenwell.smalltalk.data.mongo.Article;
@@ -47,6 +48,17 @@ public class GraphqlArticleController {
 
         log.info("Creating article: {} {}", session, input);
         return articleService.writeArticle(session, input)
+        .doOnSuccess(article -> log.info("Article created: {}", article))
+        .flatMap(article -> TenwellResponse.ok(article));
+    }
+
+    @MutationMapping
+    public Mono<TenwellResponse<Article>> publishArticle(
+        @ContextValue(name="session") TenwellSession session,
+        @Valid @Argument(name="input") ArticlePublishRequest input) {
+
+        log.info("Publishing article: {} {}", session, input);
+        return articleService.publishArticle(session, input.getArticleId())
         .doOnSuccess(article -> log.info("Article created: {}", article))
         .flatMap(article -> TenwellResponse.ok(article));
     }
