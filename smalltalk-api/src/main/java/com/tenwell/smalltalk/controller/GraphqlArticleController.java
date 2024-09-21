@@ -2,17 +2,20 @@ package com.tenwell.smalltalk.controller;
 
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.ContextValue;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 
 import com.tenwell.smalltalk.authorizer.TenwellSession;
+import com.tenwell.smalltalk.data.http.ArticleCreateRequest;
 import com.tenwell.smalltalk.data.http.ArticleQueryRequest;
 import com.tenwell.smalltalk.data.http.TenwellResponse;
 import com.tenwell.smalltalk.data.mongo.Article;
 import com.tenwell.smalltalk.data.page.PageResult;
 import com.tenwell.smalltalk.service.ArticleService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -37,4 +40,14 @@ public class GraphqlArticleController {
             
     }
 
+    @MutationMapping
+    public Mono<TenwellResponse<Article>> createArticle(
+        @ContextValue(name="session") TenwellSession session,
+        @Valid @Argument(name="input") ArticleCreateRequest input) {
+
+        log.info("Creating article: {} {}", session, input);
+        return articleService.writeArticle(session, input)
+        .doOnSuccess(article -> log.info("Article created: {}", article))
+        .flatMap(article -> TenwellResponse.ok(article));
+    }
 }

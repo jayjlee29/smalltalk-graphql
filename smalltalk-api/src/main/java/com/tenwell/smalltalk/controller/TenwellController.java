@@ -16,6 +16,7 @@ import com.tenwell.smalltalk.config.graphql.GraphqlTenwellStreamListener;
 import com.tenwell.smalltalk.data.http.ArticleCreateRequest;
 import com.tenwell.smalltalk.data.http.BoardCreateRequest;
 import com.tenwell.smalltalk.data.http.TenwellResponse;
+import com.tenwell.smalltalk.data.mongo.Article;
 import com.tenwell.smalltalk.data.mongo.Board;
 import com.tenwell.smalltalk.service.ArticleService;
 import com.tenwell.smalltalk.service.BoardService;
@@ -69,16 +70,7 @@ public class TenwellController {
         return redisOperations.convertAndSend(topic, message);
     }
 
-    @MutationMapping
-    public Mono<TenwellResponse<Boolean>> createArticle(
-        @ContextValue(name="session") TenwellSession session,
-        @Valid @Argument(name="input") ArticleCreateRequest input) {
 
-        log.info("Creating article: {} {}", session, input);
-        return articleService.writeArticle(session, input)
-        .doOnSuccess(article -> log.info("Article created: {}", article))
-        .flatMap(article -> TenwellResponse.ok(true));
-    }
 
     @MutationMapping
     public Mono<TenwellResponse<Board>> createBoard(

@@ -55,4 +55,39 @@ public class GraphqlControllerTest {
             .path("data.getArticles.code").entity(Integer.class).isEqualTo(200)
             ;
     }
+
+    @Test
+    void test002_게시글_쓰기() {
+
+        graphQlTester
+            .mutate()
+            .header("Authorization", "USER dGVud2VsbA==")
+            .build()
+            .document("""
+                mutation {
+                    createArticle (input: {
+                        boardId: "66cad594ed126a5a4d22bd36"
+                        title: "나의일기"
+                        contents: "오늘은 토요일."
+                        tags: ["주말"]
+                    }) {
+                        code
+                        message
+                        data {
+                            ...on Article {
+                                id
+                                boardId
+                                title
+                                contents
+                                createdBy
+                                createdAt
+                            }
+                        }
+                    }
+                }
+            """)
+            .execute()
+            .path("data.createArticle.code").entity(Integer.class).isEqualTo(200)
+            ;
+    }
 }
