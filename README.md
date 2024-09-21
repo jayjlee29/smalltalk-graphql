@@ -1,2 +1,9 @@
 # SmallTalk
-C:\Users\jayga\workspace\spring-boot-graphql-smalltalk\README.md
+
+## ReactJS Client
+
+## Graphql api
+- https://docs.spring.io/spring-graphql/reference/index.html
+
+## Test for Spring boot Graphql 
+- https://docs.spring.io/spring-graphql/reference/testing.html
