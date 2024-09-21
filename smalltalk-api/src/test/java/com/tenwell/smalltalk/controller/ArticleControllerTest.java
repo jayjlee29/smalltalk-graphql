@@ -32,7 +32,6 @@ public class ArticleControllerTest {
             .boardId("66a4328cae71903257170dc8")
             .title("제목")
             .contents("내용")
-            .author("작성자")
             .tags(new ArrayList<>(Arrays.asList("tag1", "tag2", "tag3")))
             .build();
 
