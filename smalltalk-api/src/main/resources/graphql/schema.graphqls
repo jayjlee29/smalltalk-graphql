@@ -15,6 +15,7 @@ type Subscription {
 type Mutation {
     publish(topic: String, message: String ): Int
     createArticle(input: ArticleCreateRequest): TenwellResponse
+    publishArticle(input: ArticlePublishRequest): TenwellResponse
     createBoard(input: BoardCreateRequest): TenwellResponse
     enableBoard(input: BoardEnableRequest) : TenwellResponse
 }
@@ -31,11 +32,14 @@ input BoardEnableRequest {
 }
 
 input ArticleCreateRequest {
-    boardId: String
-    title: String
-    contents: String
-    author: String
+    boardId: String!
+    title: String!
+    contents: String!
     tags: [String]
+}
+
+input ArticlePublishRequest {
+    articleId: String!
 }
 
 input ArticleQueryRequest {

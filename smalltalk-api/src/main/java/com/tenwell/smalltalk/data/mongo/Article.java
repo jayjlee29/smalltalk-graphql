@@ -10,7 +10,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.repository.Update;
+
 
 import com.tenwell.smalltalk.data.enums.ArticleStatus;
 
@@ -19,7 +19,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import lombok.Builder.Default;
+
 
 
 
@@ -81,12 +81,14 @@ public class Article {
 
 
 
-    public boolean publish() {
+    public boolean publish(String publishedBy) {
         if( ArticleStatus.DRAFT != this.articleStatus ) {
             return false;
         }
 
         this.articleStatus = ArticleStatus.PUBLISHED;
+        this.updatedAt = LocalDateTime.now();
+        this.updatedBy = publishedBy;
         return true;
     }
 

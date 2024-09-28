@@ -51,18 +51,17 @@ public class GraphqlTenwellConfig {
             @Override
             public Mono<WebGraphQlResponse> intercept(WebGraphQlRequest request, Chain chain) {
                 
-                String token = request.getHeaders().getFirst("Authorization");
-                log.info("token: {}", token);
-                TenwellSession session = new SimpleSessionToken();
-                session.parse(token);
-                
+                String token = request.getHeaders().getFirst(SimpleSessionToken.AUTHORIZATION_HEADER);
+                TenwellSession session = SimpleSessionToken.buildToken(token);               
 
                 request.configureExecutionInput((executionInput, builder) ->
                         builder.graphQLContext(Collections.singletonMap(SimpleSessionToken.SESSION_KEY , session))
                         .build());
                 
                 return chain.next(request).contextWrite(ctx->{
-                    log.info("context: {}", ctx);
+                    if(log.isDebugEnabled()) {
+                        log.debug("context: {}", ctx);
+                    }
                     return ctx.put(SimpleSessionToken.SESSION_KEY, session);
                 });
             }
