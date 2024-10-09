@@ -15,8 +15,8 @@ spring:
         redis:
             #host: localhost
             #port: 6379
-            host: redis-11396.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com
-            port: 11396
+            host: redis-16067.c256.us-east-1-2.ec2.redns.redis-cloud.com
+            port: 16067
             password: ${SMALLTALK_REDIS_PASSWORD}
             username: ${SMALLTALK_REDIS_USENAME}
         mongodb:
