@@ -39,7 +39,7 @@ docker compose up mongodb
 - Authorization 
 
 ```
-{"Authorization": "{userId}"}
+{"Authorization": "User {userId}"}
 ```
 
 - Subscription
