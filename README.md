@@ -61,22 +61,26 @@ docker run --rm $IMAGE_URL
 
 - check url
 ```shell
-gcloud run services describe smalltalk-api --region=asia-northeast3 --format 'value(status.url)'
+export GRAPHQL_PLAYGROUND_URL=$(gcloud run services describe smalltalk-api --region=asia-northeast3 --format 'value(status.url)')
+echo $GRAPHQL_PLAYGROUND_URL"/graphiql?path=/graphql&wsPath=/graphql-ws"
 ```
-
-- 403오류시 
-```
-gcloud run services set-iam-policy smalltalk-api policy.yaml
-```
-
-## Browser
-```
+- url 확인
+```shell
 https://smalltalk-api-ax6fykyr2a-du.a.run.app/graphiql?path=/graphql&wsPath=/graphql-ws
+```
+
+- 403오류시 외부접속이 가능하도록 정책을 allusers대상으로 허용한다.
+```
+gcloud run services set-iam-policy --region=asia-northeast3 smalltalk-api policy.yaml
+```
+
+- export cloudrun template
+```
+gcloud run services describe smalltalk-api --format export > service.yaml
 ```
 
 # References
  - [컨테이너 빌드](https://cloud.google.com/run/docs/building/containers?hl=ko)
  - [Cloud Run에 컨테이너 이미지 배포](https://cloud.google.com/run/docs/deploying?hl=ko)
  - [Cloud Run Troubleshooting](https://cloud.google.com/run/docs/troubleshooting?hl=ko)
-
- gcloud run services describe smalltalk-api --format export > service.yaml
+ 
