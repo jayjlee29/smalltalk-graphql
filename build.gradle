@@ -1,3 +1,6 @@
+plugins {
+	id 'java'
+}
 // allprojects(
 // 	group = 'com.tenwell.smalltalk'
 // 	version = '0.0.1-SNAPSHOT'
