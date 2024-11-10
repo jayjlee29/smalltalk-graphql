@@ -56,22 +56,24 @@ docker run --rm $IMAGE_URL
 ## Run smalltalk-api on CloudRun
 
 ```shell
- gcloud run services replace --region=asia-northeast3  cloudrun-smalltalk-api.yaml
+gcloud run services replace --region=asia-northeast3  cloudrun-smalltalk-api.yaml
 ```
+
+- 403오류시 외부접속이 가능하도록 정책을 allusers대상으로 허용한다.
+```
+gcloud run services set-iam-policy --region=asia-northeast3 smalltalk-api policy.yaml
+```
+
 
 - check url
 ```shell
 export GRAPHQL_PLAYGROUND_URL=$(gcloud run services describe smalltalk-api --region=asia-northeast3 --format 'value(status.url)')
 echo $GRAPHQL_PLAYGROUND_URL"/graphiql?path=/graphql&wsPath=/graphql-ws"
 ```
+
 - url 확인
 ```shell
 https://smalltalk-api-ax6fykyr2a-du.a.run.app/graphiql?path=/graphql&wsPath=/graphql-ws
-```
-
-- 403오류시 외부접속이 가능하도록 정책을 allusers대상으로 허용한다.
-```
-gcloud run services set-iam-policy --region=asia-northeast3 smalltalk-api policy.yaml
 ```
 
 - export cloudrun template
