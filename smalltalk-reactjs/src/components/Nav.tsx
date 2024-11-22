@@ -13,14 +13,6 @@ const Nav = () => {
           SMALL TALK
         </Link>
       </div>
-      <div className="m-1">
-        <Link to="/" className="text-white m-1 text-[18px] leading-[17px]">
-          SignIn
-        </Link>
-        <Link to="#" className="text-white m-1 text-[18px] leading-[17px]">
-          SignUp
-        </Link>
-      </div>
     </div>
   );
 };
