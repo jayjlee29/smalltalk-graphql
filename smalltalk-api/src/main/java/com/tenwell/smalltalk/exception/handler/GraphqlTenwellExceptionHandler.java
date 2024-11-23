@@ -4,11 +4,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import org.springframework.graphql.data.method.annotation.GraphQlExceptionHandler;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import com.tenwell.smalltalk.data.http.TenwellResponse;
-
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import graphql.ErrorType;
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
@@ -17,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-@RestControllerAdvice
+@ControllerAdvice
 public class GraphqlTenwellExceptionHandler {
     @GraphQlExceptionHandler
     public Mono<GraphQLError> handle(Exception ex) {

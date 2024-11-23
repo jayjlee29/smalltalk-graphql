@@ -1,0 +1,4 @@
+extend type Mutation {
+    createBoard(input: BoardCreateRequest): TenwellResponse
+    enableBoard(input: BoardEnableRequest) : TenwellResponse
+}

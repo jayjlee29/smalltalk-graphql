@@ -13,15 +13,15 @@ spring:
             path: /graphql-ws
     data:
         redis:
-            #host: localhost
-            #port: 6379
-            host: redis-16067.c256.us-east-1-2.ec2.redns.redis-cloud.com
-            port: 16067
+            host: localhost
+            port: 6379
+            # host: redis-16067.c256.us-east-1-2.ec2.redns.redis-cloud.com
+            # port: 16067
             password: ${SMALLTALK_REDIS_PASSWORD}
             username: ${SMALLTALK_REDIS_USENAME}
         mongodb:
             #uri: mongodb://admin:${SMALLTALK_MONGO_PASSWORD}@localhost:27017/tenwell?authSource=admin
-            uri: mongodb+srv://tenwell:${SMALLTALK_MONGO_PASSWORD}@smalltalk-cluster.1ghcn.mongodb.net/smalltalk
+            uri: mongodb+srv://${SMALLTALK_MONGO_USERNAME}:${SMALLTALK_MONGO_PASSWORD}@smalltalk-cluster.1ghcn.mongodb.net/smalltalk
     logging:
         level:
             root: INFO

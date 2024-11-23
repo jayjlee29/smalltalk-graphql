@@ -1,0 +1,26 @@
+extend union ResponseData = Board
+extend union PageItem = Board
+
+input BoardCreateRequest {
+    name: String
+    description: String
+    enabled: Boolean
+}
+
+input BoardEnableRequest {
+    boardId: String
+    enabled: Boolean
+}
+
+type Board {
+    id: ID
+    name: String
+    description: String
+    deleted: Boolean
+    enabled: Boolean
+    createdBy: String
+    createdAt: LocalDateTime
+    updatedBy: String
+    updatedAt: LocalDateTime
+}
+
