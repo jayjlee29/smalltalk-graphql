@@ -1,0 +1,10 @@
+extend union ResponseData = Profile
+
+extend type Query {
+    getProfile: TenwellResponse
+}
+
+type Profile {
+    userId: String
+    userName: String
+}

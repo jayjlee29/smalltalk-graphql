@@ -1,0 +1,39 @@
+
+type PageResult {
+    pageNo: Int
+    pageSize: Int
+    totalCount: Int
+    count: Int
+    items: [PageItem]
+}
+
+type TenwellResponse {
+    code: Int
+    data: ResponseData
+    message: String
+}
+
+type TenwellListResponse {
+    code: Int
+    data: [ResponseData]
+    message: String
+}
+
+type TenwellPageResponse {
+    code: Int
+    data: PageResult
+    message: String
+}
+
+scalar LocalDateTime
+scalar LocalDate
+
+union ResponseData = BooleanWrapper
+union PageItem = BooleanWrapper
+
+type BooleanWrapper {
+    value: Boolean
+}
+
+
+

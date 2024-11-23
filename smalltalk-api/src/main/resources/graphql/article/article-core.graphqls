@@ -1,0 +1,43 @@
+extend union ResponseData = Article
+extend union PageItem = Article
+
+
+extend type Query {
+    getArticles(input: ArticleQueryRequest): TenwellPageResponse
+    getBoards: TenwellListResponse
+}
+
+extend type Mutation {
+    createArticle(input: ArticleCreateRequest): TenwellResponse
+}
+
+type Article {
+    id: ID
+    boardId: String
+    title: String
+    contents: String
+    author: String
+    categoryList: [String]
+    createdBy: String
+    createdAt: LocalDateTime
+    updatedBy: String
+    updatedAt: LocalDateTime
+}
+
+
+input ArticleCreateRequest {
+    boardId: String!
+    title: String!
+    contents: String!
+    tags: [String]
+}
+
+input ArticlePublishRequest {
+    articleId: String!
+}
+
+input ArticleQueryRequest {
+    boardId: String!
+    pageNo: Int!
+    pageSize: Int!
+}
