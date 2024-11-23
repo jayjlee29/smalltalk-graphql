@@ -23,7 +23,20 @@ services:
       - ./smalltalk-reactjs:/src
       - node_modules:/src/node_modules
     command: sh -c "cd /src && npm install && npm run start"
+  smalltalk-api:
+    image: eclipse-temurin:21
+    container_name: smalltalk-api
+    environment:
+      - REDIS_HOST=redis
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app:rw
+      - smalltalk_build:/app/smalltalk-api/build
+    working_dir: /app
+    command: sh -c "./gradlew bootRun"
 volumes:
   mongodb_data:
   redis_data:
   node_modules:
+  smalltalk_build:
