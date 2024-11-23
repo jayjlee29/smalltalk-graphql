@@ -18,7 +18,7 @@ const httpLink = createHttpLink({
 // Authorization 헤더를 설정하는 링크 추가
 const authLink = setContext((_, { headers }) => {
   // 로컬 스토리지에서 인코딩된 유저 식별자 가져오기
-  const encodedIdentifier = localStorage.getItem("userIdentifier");
+  const encodedIdentifier = localStorage.getItem("S_TOKEN");
   return {
     headers: {
       ...headers,

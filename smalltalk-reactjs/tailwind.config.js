@@ -2,7 +2,13 @@
 module.exports = {
   content: ["./src/**/*{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        // fallback
+        light: "#FFF",
+        brand: "#FF3D00"
+      }
+    },
     screens: {
       sm: "480px",
       md: "768px",

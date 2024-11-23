@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import "./index.css";
 import { FaDeleteLeft } from "react-icons/fa6";
-import { FormValues } from "../../interface"; // FormValues 인터페이스 가져오기
+import { FormValues } from "../../interface";
 
 const SigninPage = () => {
   const navigate = useNavigate();
@@ -16,8 +16,8 @@ const SigninPage = () => {
   } = useForm<FormValues>();
 
   useEffect(() => {
-    const savedIdentifier = localStorage.getItem("userIdentifier");
-    if (savedIdentifier) {
+    const S_TOKEN = localStorage.getItem("S_TOKEN");
+    if (S_TOKEN) {
       navigate("/main");
     }
   }, [navigate]);
@@ -25,19 +25,17 @@ const SigninPage = () => {
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const encodedIdentifier = btoa(data.identifier);
 
-    // lastName과 firstName을 결합하여 userName 생성
     const userName = `${data.lastName} ${data.firstName}`.trim();
 
-    // userName을 FormValues에 추가
     const formDataToSend = {
       ...data,
-      userName // 생성한 userName 추가
+      userName
     };
 
-    localStorage.setItem("userIdentifier", encodedIdentifier);
+    localStorage.setItem("S_TOKEN", encodedIdentifier);
 
-    // 서버에 formDataToSend를 보내는 로직 추가 (예: 로그인 요청)
-    console.log(formDataToSend); // 서버로 보내기 전에 콘솔에 출력 (디버깅용)
+    // 서버에 formDataToSend를 보내는 로직 추가 필요
+    console.log(formDataToSend);
 
     navigate("/main");
   };
