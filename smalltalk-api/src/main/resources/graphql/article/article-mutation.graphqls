@@ -1,4 +1,0 @@
-extend type Query {
-    getArticles(input: ArticleQueryRequest): TenwellPageResponse
-    getBoards: TenwellListResponse
-}

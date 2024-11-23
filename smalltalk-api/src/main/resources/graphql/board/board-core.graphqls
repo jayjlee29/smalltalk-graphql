@@ -1,6 +1,11 @@
 extend union ResponseData = Board
 extend union PageItem = Board
 
+extend type Mutation {
+    createBoard(input: BoardCreateRequest): TenwellResponse
+    enableBoard(input: BoardEnableRequest) : TenwellResponse
+}
+
 input BoardCreateRequest {
     name: String
     description: String

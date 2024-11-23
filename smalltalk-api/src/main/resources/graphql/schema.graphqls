@@ -4,75 +4,7 @@ type Query {
     greetingsFlux : [String]
 }
 
-
 type Mutation {
     publish(topic: String, message: String ): Int
 }
 
-input ArticleCreateRequest {
-    boardId: String!
-    title: String!
-    contents: String!
-    tags: [String]
-}
-
-input ArticlePublishRequest {
-    articleId: String!
-}
-
-input ArticleQueryRequest {
-    boardId: String!
-    pageNo: Int!
-    pageSize: Int!
-}
-
-scalar LocalDateTime
-scalar LocalDate
-
-union ResponseData = BooleanWrapper | Article
-union PageItem = Article
-
-type BooleanWrapper {
-    value: Boolean
-}
-
-type PageResult {
-    pageNo: Int
-    pageSize: Int
-    totalCount: Int
-    count: Int
-    items: [PageItem]
-}
-
-
-type TenwellResponse {
-    code: Int
-    data: ResponseData
-    message: String
-}
-
-type TenwellListResponse {
-    code: Int
-    data: [ResponseData]
-    message: String
-}
-
-type TenwellPageResponse {
-    code: Int
-    data: PageResult
-    message: String
-}
-
-
-type Article {
-    id: ID
-    boardId: String
-    title: String
-    contents: String
-    author: String
-    categoryList: [String]
-    createdBy: String
-    createdAt: LocalDateTime
-    updatedBy: String
-    updatedAt: LocalDateTime
-}
