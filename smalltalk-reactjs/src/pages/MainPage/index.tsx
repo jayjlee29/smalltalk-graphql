@@ -1,7 +1,7 @@
 import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 
-const MainPage = () => {
+const MainPage: React.FC = (): JSX.Element => {
   return (
     <div>
       <div className="flex items-center">

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Fallback = () => {
+const Fallback: React.FC = (): JSX.Element => {
   return (
     <div className="flex items-center justify-center w-full h-full bg-black">
       <div className="relative w-12 h-12 border-2 border-light bg-transparent rounded-full animate-spin">

@@ -5,7 +5,7 @@ import "./index.css";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { FormValues } from "../../interface";
 
-const SigninPage = () => {
+const SigninPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
 
   const {
@@ -39,6 +39,34 @@ const SigninPage = () => {
 
     navigate("/main");
   };
+
+  /*
+    * temp submit function
+    const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    const encodedIdentifier = btoa(data.identifier);
+    const userName = `${data.lastName} ${data.firstName}`.trim();
+
+    const formDataToSend = {
+        identifier: data.identifier,
+        userName: userName,
+    };
+
+    localStorage.setItem("S_TOKEN", encodedIdentifier);
+
+    try {
+        * 서버에 formDataToSend를 POST 요청으로 전송 대략
+        const response = await axiosInstance.post('/api/login', formDataToSend);
+        
+        if (response.data.success) {
+            navigate("/main"); // 성공적으로 로그인하면 메인 페이지로 이동
+        } else {
+            console.error("Login failed:", response.data.message);
+        }
+    } catch (error) {
+        console.error("Error during login:", error);
+    }
+  };
+  */
 
   return (
     <div className="m-auto mt-32 w-[370px] lg:w-[650px] md:w-[500px] border border-slate-400 bg-slate-200 rounded-md">

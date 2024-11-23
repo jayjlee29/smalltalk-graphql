@@ -11,6 +11,19 @@ import { gql } from "@apollo/client";
 //   }
 // `;
 
+export const GET_PROFILE = gql`
+  query GetProfile {
+    getProfile {
+      success
+      message
+      data {
+        userId
+        userName
+      }
+    }
+  }
+`;
+
 export const GET_ARTICLES = gql`
   query GetArticles($input: ArticleQueryRequest!) {
     getArticles(input: $input) {

@@ -15,14 +15,14 @@ const Layout = () => {
   );
 };
 
-function App() {
+function App(): JSX.Element {
   return (
     <Suspense fallback={<Fallback />}>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<SigninPage />} />
-            <Route path="/main" element={<MainPage />} />
+          <Route path="/" index element={<SigninPage />} />
+          <Route path="/main" element={<Layout />}>
+            <Route index element={<MainPage />} />
           </Route>
         </Routes>
       </div>
