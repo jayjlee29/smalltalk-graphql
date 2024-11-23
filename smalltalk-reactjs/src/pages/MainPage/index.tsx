@@ -2,21 +2,16 @@ import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 
 const MainPage = () => {
-  /*
-    FIXME: 반응형 CSS
-    * signin할 경우 본인 아이콘 대체
-    1. 휴대폰 기준: nav 상단 위치(click 시 화면에 nav 보여짐)
-    2. 태블릿 기준: nav 좌측 위치
-    3. 데스크탑 기준 : nav 좌측 위치, main-container / search bar 위치 고려
-  */
   return (
     <div>
       <div className="flex items-center">
         {/* main container */}
-        <div className="lg:w-[60vw] border">mainContainer</div>
+        <div className="lg:w-[55vw] md:w-[45vw] h-[90vh] overflow-y-scroll border mt-3 m-auto">
+          mainContainer
+        </div>
 
         {/* search & trend container */}
-        <div className="mt-1 lg:w-[40vw] flex flex-col justify-between items-center">
+        <div className="lg:w-[40vw] h-[90vh] mt-3 m-auto overflow-y-scroll flex flex-col justify-between items-center">
           <div className="flex items-center justify-around rounded-3xl overflow-hidden bg-slate-500 lg:w-[300px] lg:h-[50px]">
             <IoSearchOutline className="w-5 h-5 text-white ml-3" />
             <input
