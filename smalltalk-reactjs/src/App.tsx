@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import "./App.css";
 import { Outlet, Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
 import SigninPage from "./pages/SigninPage";
 import MainPage from "./pages/MainPage";
+import Fallback from "./components/Fallback";
 
 const Layout = () => {
   return (
@@ -16,14 +17,16 @@ const Layout = () => {
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<MainPage />} />
-          <Route path="signin" element={<SigninPage />} />
-        </Route>
-      </Routes>
-    </div>
+    <Suspense fallback={<Fallback />}>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<SigninPage />} />
+            <Route path="/main" element={<MainPage />} />
+          </Route>
+        </Routes>
+      </div>
+    </Suspense>
   );
 }
 

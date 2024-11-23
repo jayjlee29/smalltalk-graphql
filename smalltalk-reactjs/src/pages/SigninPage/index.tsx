@@ -1,134 +1,147 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
 import "./index.css";
-
-// icons
 import { FaDeleteLeft } from "react-icons/fa6";
-import { IoEyeSharp } from "react-icons/io5"; // 눈 O
-import { BsEyeSlashFill } from "react-icons/bs"; // 눈 X
+import { FormValues } from "../../interface";
 
 const SigninPage = () => {
-  // input values
-  const [idValue, setIdValue] = useState<string>("");
-  const [pwdView, setPwdView] = useState<boolean>(false);
-  const [pwdValue, setPwdValue] = useState<string>("");
+  const navigate = useNavigate();
 
-  const idInputRef = useRef<HTMLInputElement>(null);
-  const pwdInputRef = useRef<HTMLInputElement>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue
+  } = useForm<FormValues>();
 
-  // 지우기 버튼 => 아이콘 사용(해당 input의 value만 삭제)
-  const handleInputClear = (
-    setter: React.Dispatch<React.SetStateAction<string>>,
-    inputRef: React.RefObject<HTMLInputElement>
-  ) => {
-    setter("");
-    if (inputRef.current) {
-      inputRef.current.focus();
+  useEffect(() => {
+    const S_TOKEN = localStorage.getItem("S_TOKEN");
+    if (S_TOKEN) {
+      navigate("/main");
     }
-  };
+  }, [navigate]);
 
-  // 비밀번호 보기
-  const togglePwdView = () => {
-    setPwdView((prev) => !prev);
-  };
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const encodedIdentifier = btoa(data.identifier);
 
-  // 커서 위치 설정
-  useLayoutEffect(() => {
-    if (pwdInputRef.current) {
-      pwdInputRef.current.focus();
-      const length = pwdInputRef.current.value.length;
-      pwdInputRef.current.setSelectionRange(length, length);
-    }
-  }, [pwdView]);
+    const userName = `${data.lastName} ${data.firstName}`.trim();
+
+    const formDataToSend = {
+      ...data,
+      userName
+    };
+
+    localStorage.setItem("S_TOKEN", encodedIdentifier);
+
+    // 서버에 formDataToSend를 보내는 로직 추가 필요
+    console.log(formDataToSend);
+
+    navigate("/main");
+  };
 
   return (
-    <div>
-      <div className="m-auto mt-16 w-[370px] lg:w-[650px] md:w-[500px] border border-slate-400 bg-slate-200 rounded-md">
-        <form className="m-auto w-[230px] lg:w-[600px] md:w-[450px] sm:w-[340px] h-[550px]">
-          <div className="w-52 m-auto text-[22px] mt-8 mb-8">
-            Welcome Small Talk
+    <div className="m-auto mt-32 w-[370px] lg:w-[650px] md:w-[500px] border border-slate-400 bg-slate-200 rounded-md">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="m-auto w-[230px] lg:w-[600px] md:w-[450px] sm:w-[340px] h-[400px] p-3"
+      >
+        <div className="w-52 m-auto text-[22px] mt-8 mb-8">
+          Welcome Small Talk
+        </div>
+        <div>
+          <div className="relative m-auto mb-4 border border-slate-100 bg-white w-[300px] md:w-[400px]">
+            <input
+              {...register("identifier", {
+                required: "아이디 또는 닉네임을 입력해주세요.",
+                pattern: {
+                  value: /^[가-힣a-zA-Z0-9\-@_]+$/,
+                  message:
+                    "유효하지 않은 형식입니다. 한글, 영대소문자, 특수문자(-, @, _)만 사용 가능합니다."
+                }
+              })}
+              type="text"
+              aria-label="아이디 또는 닉네임"
+              placeholder="아이디 또는 닉네임을 입력하세요."
+              className="ml-[6px] h-[50px] border-none w-[280px] md:w-[380px] outline-none text-[17px] z-[5]"
+            />
+            {errors.identifier && (
+              <p className="text-red-500">{errors.identifier.message}</p>
+            )}
+            <FaDeleteLeft
+              onClick={() => setValue("identifier", "")}
+              className="absolute top-2 right-2 z-10 cursor-pointer"
+            />
           </div>
-          <div className="m-auto mb-4 h-[300px] flex flex-col justify-center">
-            <div className="m-auto mt-1 mb-0 w-[300px] md:w-[450px] h-[50px] relative border border-slate-100 bg-white">
+
+          <div className="flex m-auto justify-between items-center w-[300px] md:w-[400px] gap-4">
+            {/* 성 입력 필드 */}
+            <div className="relative mb-4 border border-slate-100 bg-white w-[150] md:w-[200]">
               <input
-                ref={idInputRef}
-                aria-label="ID"
-                name="id"
-                maxLength={41}
-                onChange={(e) => setIdValue(e.target.value)}
-                value={idValue}
-                className="absolute top-2 left-[68px] m-auto mt-1 mb-2 w-[200px] md:w-[300px] outline-none text-[17px] z-[5]"
+                {...register("lastName", {
+                  required: "성을 입력해주세요.",
+                  pattern: {
+                    value: /^[가-힣a-zA-Z]+$/,
+                    message:
+                      "유효하지 않은 형식입니다. 한글 또는 영문만 사용 가능합니다."
+                  }
+                })}
+                type="text"
+                aria-label="성"
+                placeholder="성"
+                className="ml-[6px] h-[50px] border-none w-[120px] md:w-[170px] outline-none text-[17px] z-[5]"
               />
-              <label
-                htmlFor="id"
-                className="absolute bottom-5 left-1 text-gray-500"
-              >
-                아이디
-              </label>
-              {idValue.length > 0 && (
-                <FaDeleteLeft
-                  onClick={() => handleInputClear(setIdValue, idInputRef)}
-                  className="absolute top-2 right-2 z-10"
-                />
+              {errors.lastName && (
+                <p className="text-red-500">{errors.lastName.message}</p>
               )}
+              <FaDeleteLeft
+                onClick={() => setValue("lastName", "")}
+                className="absolute top-2 right-2 z-10 cursor-pointer"
+              />
             </div>
-            <div className="m-auto mt-0 mb-3 w-[300px] md:w-[450px] h-[50px] relative border border-slate-100 bg-white">
+
+            {/* 이름 입력 필드 */}
+            <div className="relative mb-4 border border-slate-100 bg-white w-[150] md:w-[200]">
               <input
-                ref={pwdInputRef}
-                type={pwdView ? "text" : "password"}
-                aria-label="Password"
-                name="pwd"
-                maxLength={21}
-                onChange={(e) => setPwdValue(e.target.value)}
-                value={pwdValue}
-                className="absolute top-2 left-[68px] m-auto mt-1 mb-2 w-[200px] md:w-[300px] outline-none text-[17px] z-[5]"
+                {...register("firstName", {
+                  required: "이름을 입력해주세요.",
+                  pattern: {
+                    value: /^[가-힣a-zA-Z]+$/,
+                    message:
+                      "유효하지 않은 형식입니다. 한글 또는 영문만 사용 가능합니다."
+                  }
+                })}
+                type="text"
+                aria-label="이름"
+                placeholder="이름"
+                className="ml-[6px] h-[50px] border-none w-[120px] md:w-[170px] outline-none text-[17px] z-[5]"
               />
-              <label
-                htmlFor="pwd"
-                className="absolute bottom-5 left-1 text-gray-500"
-              >
-                비밀번호
-              </label>
-              {pwdValue.length > 0 && (
-                <FaDeleteLeft
-                  onClick={() => handleInputClear(setPwdValue, pwdInputRef)}
-                  className="absolute top-2 right-2 z-10"
-                />
+              {errors.firstName && (
+                <p className="text-red-500">{errors.firstName.message}</p>
               )}
-              {pwdValue.length > 0 &&
-                (pwdView ? (
-                  <IoEyeSharp
-                    onClick={togglePwdView}
-                    className="absolute top-2 right-8 z-10"
-                  />
-                ) : (
-                  <BsEyeSlashFill
-                    onClick={togglePwdView}
-                    className="absolute top-2 right-8 z-10"
-                  />
-                ))}
+              <FaDeleteLeft
+                onClick={() => setValue("firstName", "")}
+                className="absolute top-2 right-2 z-10 cursor-pointer"
+              />
             </div>
           </div>
 
-          <div className="m-auto flex justify-center items-center">
-            <Link
-              to="#"
-              className="pr-3 pl-3 m-1 border-r border-gray-300 hover:underline"
+          <div className="text-center">
+            <button
+              type="submit"
+              className="w-[300px] md:w-[400px] h-[50px] bg-blue-500 text-white py-2 rounded"
             >
-              아이디 찾기
-            </Link>
-            <Link
-              to="#"
-              className="pr-3 pl-3 m-1 border-r border-gray-300 hover:underline"
-            >
-              비밀번호 찾기
-            </Link>
-            <Link to="#" className="pr-3 pl-3 m-1 hover:underline">
-              회원가입
-            </Link>
+              입장
+            </button>
           </div>
-        </form>
-      </div>
+        </div>
+
+        <div className="m-auto flex justify-center items-center mt-4">
+          <Link to="#" className="pr-3 pl-3 m-1 text-slate-500 hover:underline">
+            닉네임 찾기
+          </Link>
+        </div>
+      </form>
     </div>
   );
 };
