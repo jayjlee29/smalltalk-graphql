@@ -1,19 +1,11 @@
 import React, { Suspense } from "react";
 import "./App.css";
-import { Outlet, Route, Routes } from "react-router-dom";
-import Nav from "./components/Nav";
+import { Route, Routes } from "react-router-dom";
 import SigninPage from "./pages/SigninPage";
 import MainPage from "./pages/MainPage";
 import Fallback from "./components/Fallback";
-
-const Layout = () => {
-  return (
-    <div>
-      <Nav />
-      <Outlet />
-    </div>
-  );
-};
+import Greeting from "./pages/GraphQlCheck";
+import Layout from "./Layout/Layout";
 
 function App(): JSX.Element {
   return (
@@ -23,6 +15,7 @@ function App(): JSX.Element {
           <Route path="/" index element={<SigninPage />} />
           <Route path="/main" element={<Layout />}>
             <Route index element={<MainPage />} />
+            <Route path="greeting" element={<Greeting />} />
           </Route>
         </Routes>
       </div>

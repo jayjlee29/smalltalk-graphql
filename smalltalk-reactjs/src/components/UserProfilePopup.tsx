@@ -11,7 +11,7 @@ const UserProfilePopup: React.FC<UserProfilePopupProps> = ({
   onLogout
 }: UserProfilePopupProps): JSX.Element => {
   return (
-    <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg">
+    <div className="absolute left-0 top-8 mt-2 w-40 bg-white border rounded shadow-lg">
       <div className="p-2 hover:bg-gray-200">
         {/* 프로필 페이지로 이동 임시 */}
         <Link
