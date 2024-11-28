@@ -1,37 +1,54 @@
-import React from "react";
-import { IoSearchOutline } from "react-icons/io5";
+import React, { useState, useEffect } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import SearchBar from "../../components/SearchBar";
+import TrendSection from "../../components/TrendSection";
 
-const MainPage = () => {
-  /*
-    FIXME: 반응형 CSS
-    * signin할 경우 본인 아이콘 대체
-    1. 휴대폰 기준: nav 상단 위치(click 시 화면에 nav 보여짐)
-    2. 태블릿 기준: nav 좌측 위치
-    3. 데스크탑 기준 : nav 좌측 위치, main-container / search bar 위치 고려
-  */
+const MainPage: React.FC = (): JSX.Element => {
+  const [items, setItems] = useState([]); // 데이터 항목 배열
+  const [hasMore, setHasMore] = useState(true); // 더 가져올 데이터 여부
+  const [page, setPage] = useState(1); // 현재 페이지
+
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await fetch(`https://api.example.com/data?page=${page}`);
+  //     const newData = await response.json();
+
+  //     // 데이터를 업데이트하고 페이지 수 증가
+  //     setItems((prevItems) => [...prevItems, ...newData]);
+
+  //     // 페이지 수 증가
+  //     setPage((prevPage) => prevPage + 1);
+
+  //     // 더 이상 데이터가 없으면 hasMore를 false로 설정
+  //     if (newData.length === 0) {
+  //       setHasMore(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchData(); // 초기 데이터 로드
+  // }, []);
+
   return (
-    <div>
-      <div className="flex items-center">
-        {/* main container */}
-        <div className="lg:w-[60vw] border">mainContainer</div>
-
-        {/* search & trend container */}
-        <div className="mt-1 lg:w-[40vw] flex flex-col justify-between items-center">
-          <div className="flex items-center justify-around rounded-3xl overflow-hidden bg-slate-500 lg:w-[300px] lg:h-[50px]">
-            <IoSearchOutline className="w-5 h-5 text-white ml-3" />
-            <input
-              type="text"
-              className="block text-lg outline-none bg-slate-500 text-white mr-3 lg:w-[220px]"
-              placeholder="search"
-            />
-          </div>
-          <div className="bg-slate-900 lg:w-[300px] m-auto mt-5 rounded-3xl overflow-hidden">
-            <div className="text-white text-center text-[23px] font-bold border-b-2 border-dashed">
-              TREND
-            </div>
-            <div className="lg:h-[300px]"></div>
-          </div>
-        </div>
+    <div className="overflow-y-scroll h-[100vh]">
+      {/* 높이를 설정하여 레이아웃 유지 */}
+      <div className="w-full h-full border mx-auto">
+        {/* InfiniteScroll 사용 부분 주석 처리됨 */}
+        {/* <InfiniteScroll
+          dataLength={items.length}
+          next={fetchData}
+          hasMore={hasMore}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget="scrollableDiv"
+        >
+          {items.map((item, index) => (
+            <article key={index}>{item.name}</article>
+          ))}
+        </InfiniteScroll> */}
+        main-container
       </div>
     </div>
   );

@@ -1,29 +1,25 @@
-import React from "react";
+import React, { Suspense } from "react";
 import "./App.css";
-import { Outlet, Route, Routes } from "react-router-dom";
-import Nav from "./components/Nav";
+import { Route, Routes } from "react-router-dom";
 import SigninPage from "./pages/SigninPage";
 import MainPage from "./pages/MainPage";
+import Fallback from "./components/Fallback";
+import Greeting from "./pages/GraphQlCheck";
+import Layout from "./Layout/Layout";
 
-const Layout = () => {
+function App(): JSX.Element {
   return (
-    <div>
-      <Nav />
-      <Outlet />
-    </div>
-  );
-};
-
-function App() {
-  return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<MainPage />} />
-          <Route path="signin" element={<SigninPage />} />
-        </Route>
-      </Routes>
-    </div>
+    <Suspense fallback={<Fallback />}>
+      <div className="App">
+        <Routes>
+          <Route path="/" index element={<SigninPage />} />
+          <Route path="/main" element={<Layout />}>
+            <Route index element={<MainPage />} />
+            <Route path="greeting" element={<Greeting />} />
+          </Route>
+        </Routes>
+      </div>
+    </Suspense>
   );
 }
 
